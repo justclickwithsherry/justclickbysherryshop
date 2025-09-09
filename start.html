@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just Click • Welcome</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { mint: { 200:'#c9efdf', 400:'#76d2b1' }, plum:{500:'#6b2e63',600:'#5a2753'} }, fontFamily:{ body:['"Plus Jakarta Sans"','ui-sans-serif','system-ui'] } } }
+        }
+    </script>
+</head>
+<body class="bg-white text-slate-800 font-body min-h-screen">
+    <script>
+        // Firebase config for this page too (same project as the shop)
+        window.FIREBASE_CONFIG = {
+          apiKey: "AIzaSyBs74HoIeuFoXE0G_mdD2eNBDsucuAEQCA",
+          authDomain: "justclickshop-8081b.firebaseapp.com",
+          projectId: "justclickshop-8081b",
+          storageBucket: "justclickshop-8081b.firebasestorage.app",
+          messagingSenderId: "623998776057",
+          appId: "1:623998776057:web:f488332b7b49bbc3f5a828",
+          measurementId: "G-DTDJ1CGMWB"
+        };
+    </script>
+    <div class="relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-mint-200 to-mint-400"></div>
+        <div class="absolute -right-24 -bottom-24 w-72 h-72 bg-plum-500/20 rounded-full blur-3xl"></div>
+        <div class="relative max-w-4xl mx-auto px-6 py-20 md:py-28 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-plum-600">Just Click</h1>
+            <p class="mt-2 text-lg md:text-xl text-plum-600/90">Your lifestyle finds, just a click away.</p>
+            <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <a href="./index.html" class="block rounded-2xl bg-white/90 ring-1 ring-white/50 hover:ring-white/70 shadow p-8 transition text-left">
+                    <div class="text-sm text-slate-500">I am a</div>
+                    <div class="mt-1 text-2xl font-semibold text-plum-600">Customer</div>
+                    <p class="mt-2 text-slate-600">Browse products and place orders.</p>
+                </a>
+                <button id="ownerBtn" class="block rounded-2xl bg-white/90 ring-1 ring-white/50 hover:ring-white/70 shadow p-8 transition text-left">
+                    <div class="text-sm text-slate-500">I am the</div>
+                    <div class="mt-1 text-2xl font-semibold text-plum-600">Owner</div>
+                    <p class="mt-2 text-slate-600">Log in to view orders.</p>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Owner Login Modal -->
+    <div id="loginModal" class="fixed inset-0 hidden items-center justify-center bg-black/30">
+        <div class="bg-white rounded-2xl p-6 w-[90%] max-w-sm shadow-xl">
+            <h3 class="text-lg font-semibold">Owner Login</h3>
+            <p class="mt-1 text-sm text-slate-600">Enter the owner password to continue.</p>
+            <input id="pwd" type="password" class="mt-4 w-full px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Password" />
+            <div class="mt-4 flex gap-2 justify-end">
+                <button id="cancelLogin" class="px-4 py-2 rounded-full ring-1 ring-slate-200">Cancel</button>
+                <button id="confirmLogin" class="px-5 py-2 rounded-full bg-plum-500 text-white hover:bg-plum-600">Login</button>
+            </div>
+            <p id="loginError" class="mt-2 text-sm text-red-600 hidden">Incorrect password.</p>
+            <button id="openChange" class="mt-3 text-xs text-slate-500 hover:text-plum-600 underline">Set/Change password</button>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changeModal" class="fixed inset-0 hidden items-center justify-center bg-black/30">
+        <div class="bg-white rounded-2xl p-6 w-[90%] max-w-sm shadow-xl">
+            <h3 class="text-lg font-semibold">Set / Change Owner Password</h3>
+            <p class="mt-1 text-sm text-slate-600">Enter current password, then your new password.</p>
+            <input id="currentPwd" type="password" class="mt-4 w-full px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Current password (leave empty if none)" />
+            <input id="newPwd" type="password" class="mt-3 w-full px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="New password" />
+            <input id="confirmPwd" type="password" class="mt-3 w-full px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Confirm new password" />
+            <div class="mt-4 flex gap-2 justify-end">
+                <button id="cancelChange" class="px-4 py-2 rounded-full ring-1 ring-slate-200">Cancel</button>
+                <button id="saveChange" class="px-5 py-2 rounded-full bg-plum-500 text-white hover:bg-plum-600">Save</button>
+            </div>
+            <p id="changeError" class="mt-2 text-sm text-red-600 hidden"></p>
+            <p id="changeOk" class="mt-2 text-sm text-green-600 hidden">Password updated.</p>
+        </div>
+    </div>
+
+    <script>
+        // Owner gate now backed by Firestore config doc: config/owner.passwordHash
+        // Falls back to no password if doc doesn't exist yet.
+        let fbApp = null, fstore = null, fbMods = null;
+
+        async function ensureFirebase() {
+            if (fbApp && fstore && fbMods) return;
+            const [{ initializeApp }, firestore] = await Promise.all([
+                import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'),
+                import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
+            ]);
+            fbMods = firestore;
+            fbApp = initializeApp(window.FIREBASE_CONFIG);
+            fstore = firestore.getFirestore(fbApp);
+        }
+
+        async function sha256(text){
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+            return Array.from(new Uint8Array(buf)).map(x=>x.toString(16).padStart(2,'0')).join('');
+        }
+
+        async function getStoredHash(){
+            await ensureFirebase();
+            const { doc, getDoc } = fbMods;
+            const d = await getDoc(doc(fstore, 'config', 'owner'));
+            return d.exists() ? (d.data().passwordHash || '') : '';
+        }
+
+        async function setStoredHash(newHash){
+            await ensureFirebase();
+            const { doc, setDoc } = fbMods;
+            await setDoc(doc(fstore, 'config', 'owner'), { passwordHash: newHash }, { merge: true });
+        }
+
+        const modal = document.getElementById('loginModal');
+        // If user chooses Customer, ensure admin mode is cleared for this origin
+        (function(){
+            try {
+                var customerLink = document.querySelector('a[href="./index.html"]');
+                if (customerLink) {
+                    customerLink.addEventListener('click', function(){
+                        try { localStorage.removeItem('jcws_admin'); } catch {}
+                    });
+                }
+            } catch (e) {}
+        })();
+        document.getElementById('ownerBtn').addEventListener('click', () => {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('pwd').focus();
+        });
+        document.getElementById('cancelLogin').addEventListener('click', () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+        document.getElementById('confirmLogin').addEventListener('click', async () => {
+            const entered = document.getElementById('pwd').value;
+            const stored = await getStoredHash();
+            if (!stored) {
+                // no password set yet → ask to set
+                openChangeModal();
+                return;
+            }
+            const hashHex = await sha256(entered);
+            if (hashHex === stored) { try { localStorage.setItem('jcws_admin', '1'); } catch {} location.href = './admin.html'; }
+            else document.getElementById('loginError').classList.remove('hidden');
+        });
+        document.getElementById('pwd').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ document.getElementById('confirmLogin').click(); } });
+
+        // Change password flow
+        const changeModal = document.getElementById('changeModal');
+        function openChangeModal(){
+            changeModal.classList.remove('hidden');
+            changeModal.classList.add('flex');
+            document.getElementById('newPwd').focus();
+        }
+        document.getElementById('openChange').addEventListener('click', openChangeModal);
+        document.getElementById('cancelChange').addEventListener('click', () => {
+            changeModal.classList.add('hidden');
+            changeModal.classList.remove('flex');
+        });
+        document.getElementById('saveChange').addEventListener('click', async () => {
+            const cur = document.getElementById('currentPwd').value;
+            const np = document.getElementById('newPwd').value;
+            const cp = document.getElementById('confirmPwd').value;
+            const err = document.getElementById('changeError');
+            const ok = document.getElementById('changeOk');
+            err.classList.add('hidden'); ok.classList.add('hidden');
+
+            if (!np || np.length < 6) { err.textContent = 'New password must be at least 6 characters.'; err.classList.remove('hidden'); return; }
+            if (np !== cp) { err.textContent = 'Passwords do not match.'; err.classList.remove('hidden'); return; }
+
+            const stored = await getStoredHash();
+            if (stored) {
+                const curHash = await sha256(cur || '');
+                if (curHash !== stored) { err.textContent = 'Current password is incorrect.'; err.classList.remove('hidden'); return; }
+            }
+            const newHash = await sha256(np);
+            await setStoredHash(newHash);
+            ok.classList.remove('hidden');
+            setTimeout(()=>{ changeModal.classList.add('hidden'); changeModal.classList.remove('flex'); }, 700);
+        });
+    </script>
+</body>
+</html>
+
+

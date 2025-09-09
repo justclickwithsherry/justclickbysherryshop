@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products • Just Click by Sherry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { mint: { 50: '#f2fbf7', 100: '#e6f7ef', 200: '#c9efdf', 300: '#a5e3cb', 400: '#76d2b1', 500: '#4ab997', 600: '#359b80' }, plum: { 500: '#6b2e63', 600: '#5a2753' } },
+                    fontFamily: { display: ['"Plus Jakarta Sans"','ui-sans-serif','system-ui','Segoe UI','Roboto'], body: ['"Plus Jakarta Sans"','ui-sans-serif','system-ui','Segoe UI','Roboto'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white text-slate-800 font-body">
+    <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-mint-200 to-mint-400 flex items-center justify-center">
+                        <span class="text-plum-600 text-xl">⌂</span>
+                    </div>
+                    <div class="leading-tight">
+                        <h1 class="text-xl font-semibold tracking-tight">All Products</h1>
+                        <p class="text-xs text-slate-500 -mt-1">Just Click by Sherry</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a href="./index.html#products" class="hidden md:inline-flex items-center gap-2 rounded-full px-4 py-2 ring-1 ring-slate-200 hover:ring-plum-500 text-sm transition">Back to shop</a>
+                    <div id="adminControls" class="hidden items-center gap-2 mr-3">
+                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-200">Admin Mode</span>
+                        <a href="./admin.html" class="text-sm text-plum-600 hover:underline">Dashboard</a>
+                    </div>
+                    <button id="openCart" class="relative inline-flex items-center gap-2 rounded-full px-4 py-2 bg-plum-500 text-white hover:bg-plum-600 transition">
+                        <span>Cart</span>
+                        <span id="cartCount" class="text-xs bg-white text-plum-600 rounded-full px-2 py-0.5">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-semibold tracking-tight">All Products</h2>
+                    <div class="mt-1 text-sm text-slate-500">Browse the complete catalog</div>
+                </div>
+                <div class="relative flex items-center w-full max-w-sm">
+                    <!-- Search Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         class="absolute left-3 h-5 w-5 text-slate-400" 
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+                    </svg>
+                  
+                    <!-- Search Input -->
+                    <input 
+                      id="prodSearch"
+                      type="text"
+                      placeholder="Search products..."
+                      class="flex-1 pl-10 pr-4 py-2 rounded-full ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500 text-sm"
+                    />
+                  </div>
+                <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2 sm:items-center">
+                    
+                    <select id="prodCategory" class="px-4 py-2 rounded-full ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500 text-sm">
+                        <option value="all">All categories</option>
+                        <option value="clothes">Clothes</option>
+                        <option value="lip-tint">Lip tints</option>
+                    </select>
+                </div>
+            </div>
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+    </main>
+
+    <!-- Cart Drawer -->
+    <div id="cartDrawer" class="fixed inset-y-0 right-0 w-full sm:w-[380px] bg-white shadow-2xl translate-x-full transition-transform duration-300 z-50 flex flex-col">
+        <div class="p-4 border-b flex items-center justify-between">
+            <h4 class="font-semibold">Your Cart</h4>
+            <button id="closeCart" class="text-slate-500 hover:text-plum-600">Close</button>
+        </div>
+        <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
+        <div class="p-4 border-t space-y-3">
+            <div class="flex items-center justify-between">
+                <span class="text-slate-600">Subtotal</span>
+                <span id="cartSubtotal" class="font-semibold">₱0.00</span>
+            </div>
+            <button id="checkoutBtn" class="w-full rounded-full bg-plum-500 text-white px-6 py-3 hover:bg-plum-600 transition">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Details Modal -->
+    <div id="checkoutModal" class="fixed inset-0 hidden items-center justify-center bg-black/30 z-50">
+        <div class="bg-white rounded-2xl p-6 w-[92%] max-w-md shadow-xl">
+            <h3 class="text-lg font-semibold">Delivery Details</h3>
+            <p class="mt-1 text-sm text-slate-600">Please provide your information to complete the order.</p>
+            <div class="grid gap-3 mt-4">
+                <input id="chkName" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Full name" />
+                <input id="chkPhone" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Phone number" />
+                <textarea id="chkAddress" rows="3" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Delivery address"></textarea>
+                <input id="chkFacebook" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Facebook name (optional)" />
+                <div class="mt-1 flex items-center gap-2">
+                    <input id="chkNotRobot" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-plum-600 focus:ring-plum-500" />
+                    <label for="chkNotRobot" class="text-sm text-slate-700">I'm not a robot</label>
+                </div>
+                <input id="chkHoney" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+                <div class="mt-2 grid grid-cols-[1fr_auto] items-center gap-2">
+                    <canvas id="chkCaptchaCanvas" width="200" height="56" class="rounded-xl ring-1 ring-slate-200 bg-slate-50"></canvas>
+                    <button id="chkCaptchaRefresh" type="button" class="px-3 py-2 rounded-full ring-1 ring-slate-200 text-sm hover:ring-plum-500">Refresh</button>
+                </div>
+                <input id="chkCaptchaInput" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Enter the code above" />
+                <p id="chkError" class="hidden text-sm text-red-600">Please fill in name, phone, address, and confirm you're not a robot.</p>
+            </div>
+            <div class="mt-5 flex items-center justify-end gap-2">
+                <button id="chkCancel" class="px-4 py-2 rounded-full ring-1 ring-slate-200">Cancel</button>
+                <button id="chkSubmit" class="px-5 py-2 rounded-full bg-plum-500 text-white hover:bg-plum-600">Place Order</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.FIREBASE_CONFIG = {
+          apiKey: "AIzaSyBs74HoIeuFoXE0G_mdD2eNBDsucuAEQCA",
+          authDomain: "justclickshop-8081b.firebaseapp.com",
+          projectId: "justclickshop-8081b",
+          storageBucket: "justclickshop-8081b.firebasestorage.app",
+          messagingSenderId: "623998776057",
+          appId: "1:623998776057:web:f488332b7b49bbc3f5a828",
+          measurementId: "G-DTDJ1CGMWB"
+        };
+    </script>
+    <script>
+        // Show admin indicator on products page if admin mode is active
+        (function(){
+            try {
+                var isAdmin = localStorage.getItem('jcws_admin') === '1';
+                var ctrls = document.getElementById('adminControls');
+                if (isAdmin && ctrls) { ctrls.classList.remove('hidden'); ctrls.classList.add('flex'); }
+            } catch (e) {}
+        })();
+    </script>
+    <script type="module" src="./script.js"></script>
+</body>
+</html>

@@ -75,6 +75,10 @@
                     <a href="#about" class="hover:text-plum-600">About</a>
                     <a href="#contact" class="hover:text-plum-600">Contact</a>
                 </nav>
+                <div id="adminControls" class="hidden items-center gap-2 mr-3">
+                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-200">Admin Mode</span>
+                    <a href="./admin.html" class="text-sm text-plum-600 hover:underline">Dashboard</a>
+                </div>
                 <button id="openCart" class="relative inline-flex items-center gap-2 rounded-full px-4 py-2 bg-plum-500 text-white hover:bg-plum-600 transition">
                     <span>Cart</span>
                     <span id="cartCount" class="text-xs bg-white text-plum-600 rounded-full px-2 py-0.5">0</span>
@@ -115,12 +119,40 @@
     <!-- Products -->
     <section id="products" class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-end justify-between gap-4 mb-8">
-                <h3 class="text-2xl font-semibold tracking-tight">Featured Products</h3>
-                <div class="text-sm text-slate-500">Elegant pieces in soft pastels and modern silhouettes</div>
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8">
+                <div>
+                    <h3 class="text-2xl font-semibold tracking-tight">Featured Products</h3>
+                    <div class="mt-1 text-sm text-slate-500">Elegant pieces in soft pastels and modern silhouettes</div>
+                </div>
+                <div class="relative flex items-center w-full max-w-sm">
+                    <!-- Search Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         class="absolute left-3 h-5 w-5 text-slate-400" 
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+                    </svg>
+                  
+                    <!-- Search Input -->
+                    <input 
+                      id="prodSearch"
+                      type="text"
+                      placeholder="Search products..."
+                      class="flex-1 pl-10 pr-4 py-2 rounded-full ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500 text-sm"
+                    />
+                  </div>
+                <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-2 sm:items-center">
+                    
+                    <select id="prodCategory" class="px-4 py-2 rounded-full ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500 text-sm">
+                        <option value="all">All categories</option>
+                        <option value="clothes">Clothes</option>
+                        <option value="lip-tint">Lip tints</option>
+                    </select>
+                    <a href="./products.html" class="inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 ring-1 ring-slate-200 hover:ring-plum-500 text-sm transition">View all</a>
+                </div>
             </div>
 
-            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div id="productGrid" data-limit="responsive" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
     </section>
 
@@ -182,7 +214,67 @@
         </div>
     </div>
 
+    <!-- Checkout Details Modal -->
+    <div id="checkoutModal" class="fixed inset-0 hidden items-center justify-center bg-black/30 z-50">
+        <div class="bg-white rounded-2xl p-6 w-[92%] max-w-md shadow-xl">
+            <h3 class="text-lg font-semibold">Delivery Details</h3>
+            <p class="mt-1 text-sm text-slate-600">Please provide your information to complete the order.</p>
+            <div class="grid gap-3 mt-4">
+                <input id="chkName" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Full name" />
+                <input id="chkPhone" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Phone number" />
+                <textarea id="chkAddress" rows="3" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Delivery address"></textarea>
+                <input id="chkFacebook" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Facebook name (optional)" />
+                <div class="mt-1 flex items-center gap-2">
+                    <input id="chkNotRobot" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-plum-600 focus:ring-plum-500" />
+                    <label for="chkNotRobot" class="text-sm text-slate-700">I'm not a robot</label>
+                </div>
+                <!-- Honeypot field: hidden from humans; bots often fill it. Must remain empty. -->
+                <input id="chkHoney" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+                <!-- Simple CAPTCHA: customer copies the code shown -->
+                <div class="mt-2 grid grid-cols-[1fr_auto] items-center gap-2">
+                    <canvas id="chkCaptchaCanvas" width="200" height="56" class="rounded-xl ring-1 ring-slate-200 bg-slate-50"></canvas>
+                    <button id="chkCaptchaRefresh" type="button" class="px-3 py-2 rounded-full ring-1 ring-slate-200 text-sm hover:ring-plum-500">Refresh</button>
+                </div>
+                <input id="chkCaptchaInput" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Enter the code above" />
+                <p id="chkError" class="hidden text-sm text-red-600">Please fill in name, phone, address, and confirm you're not a robot.</p>
+            </div>
+            <div class="mt-5 flex items-center justify-end gap-2">
+                <button id="chkCancel" class="px-4 py-2 rounded-full ring-1 ring-slate-200">Cancel</button>
+                <button id="chkSubmit" class="px-5 py-2 rounded-full bg-plum-500 text-white hover:bg-plum-600">Place Order</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Start button (outside header for a cleaner look) -->
+    <a id="backToStart" href="./start.html" aria-label="Back to start" title="Back to start" class="fixed left-4 top-4 z-40 inline-flex items-center justify-center rounded-full w-10 h-10 bg-white ring-1 ring-slate-200 shadow hover:ring-plum-500 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-slate-700">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5M3 12h18"/>
+        </svg>
+    </a>
+
     <!-- Scripts -->
+    <script>
+        // Show admin indicator on customer UI if admin mode is active
+        (function(){
+            try {
+                var isAdmin = localStorage.getItem('jcws_admin') === '1';
+                var ctrls = document.getElementById('adminControls');
+                if (isAdmin && ctrls) {
+                    ctrls.classList.remove('hidden');
+                    ctrls.classList.add('flex');
+                }
+                var exitBtn = document.getElementById('exitAdmin');
+                if (exitBtn) {
+                    exitBtn.addEventListener('click', function(){
+                        try { localStorage.removeItem('jcws_admin'); } catch {}
+                        var ctrls2 = document.getElementById('adminControls');
+                        if (ctrls2) { ctrls2.classList.add('hidden'); ctrls2.classList.remove('flex'); }
+                    });
+                }
+            } catch (e) {}
+        })();
+    </script>
     <script type="module" src="./script.js"></script>
 </body>
 </html>
