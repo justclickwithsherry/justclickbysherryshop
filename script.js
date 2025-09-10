@@ -37,11 +37,12 @@ async function ensureFirebaseHelpers() {
 let products = [
   // Replace each image with your own product photo URL or local path.
   { id: 'dress-soft-mint', name: 'Soft Mint Dress', price: 899, category: 'clothes', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Soft+Mint+Dress' },
-  { id: 'linen-set-cream', name: 'Cream Linen Set', price: 1199, category: 'clothes', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Cream+Linen+Set' },
+  { id: 'Fullset', name: 'Cream Linen Set', price: 1199, category: 'clothes', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Cream+Linen+Set' },
   { id: 'cardigan-plum', name: 'Plum Cardigan', price: 980, category: 'clothes', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Plum+Cardigan' },
   { id: 'tint-rose', name: 'Velvet Lip Tint – Rose', price: 299, category: 'lip-tint', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Rose' },
   { id: 'tint-plum', name: 'Velvet Lip Tint – Plum', price: 299, category: 'lip-tint', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Plum' },
   { id: 'tint-mocha', name: 'Velvet Lip Tint – Mocha', price: 299, category: 'lip-tint', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Mocha' },
+  { id: 'tint', name: 'Velvet  Tint – Mocha', price: 299, category: 'lip-tint', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Mocha' },
 ];
 
 // --- State ---
@@ -112,7 +113,17 @@ function renderProducts() {
       </div>
       <div class="p-4">
         <div class="font-medium">${p.name}</div>
-        <div class="text-sm text-slate-500">${p.category === 'clothes' ? 'Women\'s apparel' : 'Lip tint'}</div>
+        <div class="text-sm text-slate-500">
+  ${{
+    clothes: "Clothes",
+    liptint: "Lip tint",
+    shoes: "Shoes",
+    dress: "Dress",
+    full: "Full Set",  
+    accessories: "Accessories"
+  }[p.category.toLowerCase()] || "others"}
+</div>
+
         <div class="mt-2 font-semibold">${peso(p.price)}</div>
         <button data-id="${p.id}" class="mt-4 w-full rounded-full bg-plum-500 text-white px-4 py-2 hover:bg-plum-600 transition">Add to Cart</button>
       </div>
@@ -328,7 +339,7 @@ async function tryLoadProductsFromFirestore(){
         id: p.id,
         name: p.name,
         price: Number(p.price || 0),
-        category: p.category || 'clothes',
+        category: p.category || 'others',
         image: p.image || 'https://placehold.co/600x450/FFFFFF/5A2753?text=Product'
       }));
     }
