@@ -138,7 +138,8 @@
             const from = document.getElementById('dateFrom').value ? new Date(document.getElementById('dateFrom').value) : null;
             const to = document.getElementById('dateTo').value ? new Date(document.getElementById('dateTo').value + 'T23:59:59') : null;
             let filtered = allOrders.filter(o => {
-                const text = (o.id + ' ' + (o.items || []).map(i=>i.name).join(' ')).toLowerCase();
+                 const customerName = (o.customer?.name || '');
+        const text = (o.id + ' ' + customerName + ' ' + (o.items || []).map(i=>i.name).join(' ')).toLowerCase();
                 if (q && !text.includes(q)) return false;
                 if (from && o.createdAt && o.createdAt.toDate && o.createdAt.toDate() < from) return false;
                 if (to && o.createdAt && o.createdAt.toDate && o.createdAt.toDate() > to) return false;
@@ -266,7 +267,7 @@
     <div class="grid gap-3 mt-3">
       <input id="pmName" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Name">
       <input id="pmPrice" type="number" step="0.01" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Price">
-      <input id="pmCategory" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Category (clothes/lip-tint/dress/full)">
+      <input id="pmCategory" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Category (clothes/lip-tint/dress/full/top/perfume/accessory/pants)">
       <input id="pmImage" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Image URL">
     </div>
     <div class="mt-4 flex gap-2 justify-end">

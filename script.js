@@ -120,6 +120,9 @@ function renderProducts() {
     shoes: "Shoes",
     dress: "Dress",
     full: "Full Set",  
+    top: "Top",
+    pants: "Pants",
+    perfume: "Perfume",
     accessories: "Accessories"
   }[p.category.toLowerCase()] || "others"}
 </div>
