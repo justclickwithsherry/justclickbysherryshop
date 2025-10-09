@@ -4,27 +4,27 @@ let firebaseApp = null;
 let firestoreDb = null;
 
 async function ensureFirebaseHelpers() {
-  // Returns { collection, addDoc, serverTimestamp }
+  // Returns { collection, addDoc, serverTimestamp, doc, updateDoc, getDocs }
   if (window.__fb && firebaseApp && firestoreDb) return window.__fb;
   try {
-    const [{ initializeApp }, { getFirestore, collection, addDoc, serverTimestamp }] = await Promise.all([
+    const [{ initializeApp }, { getFirestore, collection, addDoc, serverTimestamp, doc, updateDoc, getDocs }] = await Promise.all([
       import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'),
       import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
     ]);
     if (!firebaseApp) firebaseApp = initializeApp(window.FIREBASE_CONFIG);
     if (!firestoreDb) firestoreDb = getFirestore(firebaseApp);
-    window.__fb = { collection, addDoc, serverTimestamp };
+    window.__fb = { collection, addDoc, serverTimestamp, doc, updateDoc, getDocs };
     return window.__fb;
   } catch (e) {
     // Retry once in case of transient network failure
     try {
-      const [{ initializeApp }, { getFirestore, collection, addDoc, serverTimestamp }] = await Promise.all([
+      const [{ initializeApp }, { getFirestore, collection, addDoc, serverTimestamp, doc, updateDoc, getDocs }] = await Promise.all([
         import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'),
         import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
       ]);
       if (!firebaseApp) firebaseApp = initializeApp(window.FIREBASE_CONFIG);
       if (!firestoreDb) firestoreDb = getFirestore(firebaseApp);
-      window.__fb = { collection, addDoc, serverTimestamp };
+      window.__fb = { collection, addDoc, serverTimestamp, doc, updateDoc, getDocs };
       return window.__fb;
     } catch (e2) {
       console.error('Failed to load Firebase modules:', e2);
@@ -36,13 +36,13 @@ async function ensureFirebaseHelpers() {
 // --- Product Catalog (clothes + lip tints) ---
 let products = [
   // Replace each image with your own product photo URL or local path.
-  { id: 'dress-soft-mint', name: 'Soft Mint Dress', price: 899, category: 'clothes', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Soft+Mint+Dress' },
-  { id: 'Fullset', name: 'Cream Linen Set', price: 1199, category: 'clothes', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Cream+Linen+Set' },
-  { id: 'cardigan-plum', name: 'Plum Cardigan', price: 980, category: 'clothes', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Plum+Cardigan' },
-  { id: 'tint-rose', name: 'Velvet Lip Tint – Rose', price: 299, category: 'lip-tint', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Rose' },
-  { id: 'tint-plum', name: 'Velvet Lip Tint – Plum', price: 299, category: 'lip-tint', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Plum' },
-  { id: 'tint-mocha', name: 'Velvet Lip Tint – Mocha', price: 299, category: 'lip-tint', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Mocha' },
-  { id: 'tint', name: 'Velvet  Tint – Mocha', price: 299, category: 'lip-tint', image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Mocha' },
+  { id: 'dress-soft-mint', name: 'Soft Mint Dress', price: 899, category: 'clothes', stock: 5, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Soft+Mint+Dress' },
+  { id: 'Fullset', name: 'Cream Linen Set', price: 1199, category: 'clothes', stock: 3, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Cream+Linen+Set' },
+  { id: 'cardigan-plum', name: 'Plum Cardigan', price: 980, category: 'clothes', stock: 0, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Plum+Cardigan' },
+  { id: 'tint-rose', name: 'Velvet Lip Tint – Rose', price: 299, category: 'lip-tint', stock: 10, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Rose' },
+  { id: 'tint-plum', name: 'Velvet Lip Tint – Plum', price: 299, category: 'lip-tint', stock: 8, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Plum' },
+  { id: 'tint-mocha', name: 'Velvet Lip Tint – Mocha', price: 299, category: 'lip-tint', stock: 0, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Mocha' },
+  { id: 'tint', name: 'Velvet  Tint – Mocha', price: 299, category: 'lip-tint', stock: 2, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Mocha' },
 ];
 
 // --- State ---
@@ -105,11 +105,13 @@ function renderProducts() {
     toRender = toRender.slice(0, maxItems);
   }
   toRender.forEach((p) => {
+    const isOutOfStock = Number(p.stock || 0) === 0;
     const card = document.createElement('div');
-    card.className = 'group bg-white rounded-2xl ring-1 ring-slate-100 shadow-sm overflow-hidden hover:-translate-y-0.5 hover:shadow transition';
+    card.className = `group bg-white rounded-2xl ring-1 ring-slate-100 shadow-sm overflow-hidden hover:-translate-y-0.5 hover:shadow transition ${isOutOfStock ? 'opacity-75' : ''}`;
     card.innerHTML = `
-      <div class="aspect-[4/3] overflow-hidden">
-        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition" />
+      <div class="aspect-[4/3] overflow-hidden relative">
+        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition ${isOutOfStock ? 'grayscale' : ''}" />
+        ${isOutOfStock ? '<div class="absolute inset-0 bg-black/40 flex items-center justify-center"><span class="bg-red-500 text-white px-3 py-1 rounded-full font-semibold text-sm">Out of Stock</span></div>' : ''}
       </div>
       <div class="p-4">
         <div class="font-medium">${p.name}</div>
@@ -129,8 +131,16 @@ function renderProducts() {
   }[p.category.toLowerCase()] || "others"}
 </div>
 
-        <div class="mt-2 font-semibold">${peso(p.price)}</div>
-        <button data-id="${p.id}" class="mt-4 w-full rounded-full bg-plum-500 text-white px-4 py-2 hover:bg-plum-600 transition">Add to Cart</button>
+        <div class="mt-2 flex items-center justify-between">
+          <span class="font-semibold">${peso(p.price)}</span>
+          <span class="text-sm font-medium ${isOutOfStock ? 'text-red-600' : 'text-green-600'}">
+            Stock: ${Number(p.stock || 0)}
+          </span>
+        </div>
+        ${isOutOfStock ? 
+          `<button disabled class="mt-4 w-full rounded-full bg-gray-300 text-gray-500 px-4 py-2 cursor-not-allowed">Out of Stock</button>` :
+          `<button data-id="${p.id}" class="mt-4 w-full rounded-full bg-plum-500 text-white px-4 py-2 hover:bg-plum-600 transition">Add to Cart</button>`
+        }
       </div>
     `;
     grid.appendChild(card);
@@ -149,17 +159,22 @@ function renderCart() {
 
   itemsEl.innerHTML = '';
   items.forEach((item) => {
+    const product = products.find(p => p.id === item.id);
+    const availableStock = Number(product?.stock || 0);
+    const canIncrease = item.quantity < availableStock;
+    
     const row = document.createElement('div');
     row.className = 'flex gap-3 items-center';
     row.innerHTML = `
       <img src="${item.image}" class="w-16 h-16 rounded-lg object-cover" alt="${item.name}" />
       <div class="flex-1">
         <div class="font-medium">${item.name}</div>
-        <div class="text-sm text-slate-500">${peso(item.price)}</div>
+        <div class="text-sm text-slate-500">${peso(item.price)} each</div>
+        <div class="text-xs text-slate-400">Available: ${availableStock} in stock</div>
         <div class="mt-2 inline-flex items-center gap-2">
           <button class="qty-dec px-2 py-1 rounded ring-1 ring-slate-200">-</button>
           <span class="min-w-[24px] text-center">${item.quantity}</span>
-          <button class="qty-inc px-2 py-1 rounded ring-1 ring-slate-200">+</button>
+          <button class="qty-inc px-2 py-1 rounded ring-1 ring-slate-200 ${!canIncrease ? 'opacity-50 cursor-not-allowed' : ''}" ${!canIncrease ? 'disabled' : ''}>+</button>
           <button class="remove text-xs text-red-500 ml-2">Remove</button>
         </div>
       </div>
@@ -167,7 +182,9 @@ function renderCart() {
     `;
 
     row.querySelector('.qty-dec').addEventListener('click', () => updateQty(item.id, item.quantity - 1));
-    row.querySelector('.qty-inc').addEventListener('click', () => updateQty(item.id, item.quantity + 1));
+    if (canIncrease) {
+      row.querySelector('.qty-inc').addEventListener('click', () => updateQty(item.id, item.quantity + 1));
+    }
     row.querySelector('.remove').addEventListener('click', () => removeFromCart(item.id));
     itemsEl.appendChild(row);
   });
@@ -179,14 +196,45 @@ function renderCart() {
 
 // --- Mutations ---
 function addToCart(productId) {
-  cart[productId] = (cart[productId] || 0) + 1;
+  const product = products.find(p => p.id === productId);
+  if (!product) {
+    alert('Product not found');
+    return;
+  }
+  
+  const currentStock = Number(product.stock || 0);
+  const currentCartQty = cart[productId] || 0;
+  
+  if (currentStock === 0) {
+    alert('This product is out of stock');
+    return;
+  }
+  
+  if (currentCartQty >= currentStock) {
+    alert(`Only ${currentStock} items available in stock`);
+    return;
+  }
+  
+  cart[productId] = currentCartQty + 1;
   renderCart();
   saveCartToStorage();
 }
 
 function updateQty(productId, quantity) {
-  if (quantity <= 0) delete cart[productId];
-  else cart[productId] = quantity;
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+  
+  const currentStock = Number(product.stock || 0);
+  
+  if (quantity <= 0) {
+    delete cart[productId];
+  } else if (quantity > currentStock) {
+    alert(`Only ${currentStock} items available in stock`);
+    return;
+  } else {
+    cart[productId] = quantity;
+  }
+  
   renderCart();
   saveCartToStorage();
 }
@@ -201,19 +249,59 @@ function removeFromCart(productId) {
 async function checkout(customer) {
   const items = getCartItems().map(({ id, name, price, quantity }) => ({ id, name, price, quantity }));
   if (items.length === 0) return alert('Your cart is empty.');
+  
+  // Validate stock before checkout
+  for (const item of items) {
+    const product = products.find(p => p.id === item.id);
+    if (!product) {
+      alert(`Product ${item.name} not found`);
+      return;
+    }
+    if (Number(product.stock || 0) < item.quantity) {
+      alert(`Insufficient stock for ${item.name}. Available: ${product.stock}, Requested: ${item.quantity}`);
+      return;
+    }
+  }
+  
   const total = computeSubtotal();
   try {
-    const { collection, addDoc, serverTimestamp } = await ensureFirebaseHelpers();
+    const { collection, addDoc, serverTimestamp, doc, updateDoc, getDocs } = await ensureFirebaseHelpers();
+    
+    // Create the order
     await addDoc(collection(firestoreDb, 'orders'), {
       items,
       total,
       customer: customer || null,
       createdAt: serverTimestamp(),
     });
+    
+    // Update stock quantities in Firestore
+    for (const item of items) {
+      const productQuery = await getDocs(collection(firestoreDb, 'products'));
+      productQuery.forEach(async (docSnap) => {
+        const productData = docSnap.data();
+        if (productData.id === item.id || docSnap.id === item.id) {
+          const newStock = Math.max(0, Number(productData.stock || 0) - item.quantity);
+          await updateDoc(doc(firestoreDb, 'products', docSnap.id), {
+            stock: newStock
+          });
+        }
+      });
+    }
+    
+    // Update local products array
+    items.forEach(item => {
+      const product = products.find(p => p.id === item.id);
+      if (product) {
+        product.stock = Math.max(0, Number(product.stock || 0) - item.quantity);
+      }
+    });
+    
     cart = {};
     renderCart();
     saveCartToStorage();
-    alert('Thank you! Your order was placed.');
+    renderProducts(); // Re-render products to show updated stock
+    alert('Thank you! Your order was placed and stock has been updated.');
   } catch (err) {
     console.error(err);
     alert('Failed to place order. Please check your internet connection and try again.');
@@ -345,6 +433,7 @@ async function tryLoadProductsFromFirestore(){
         name: p.name,
         price: Number(p.price || 0),
         category: p.category || 'others',
+        stock: Number(p.stock || 0),
         image: p.image || 'https://placehold.co/600x450/FFFFFF/5A2753?text=Product'
       }));
     }
