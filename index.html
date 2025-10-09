@@ -283,6 +283,46 @@
             } catch (e) {}
         })();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+      // Initialize EmailJS with your Public Key
+      (function(){ try { emailjs.init('KNpJqqTeyrSQg0fGJ'); } catch(e) { console.error(e); } })();
+
+      (function initContactForm(){
+        var form = document.getElementById('contactForm');
+        if (!form) return;
+
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+
+          // Get fields (order as in your form)
+          var inputs = form.querySelectorAll('input, textarea');
+          var name = (inputs[0]?.value || '').trim();
+          var email = (inputs[1]?.value || '').trim();
+          var message = (inputs[2]?.value || '').trim();
+
+          if (!name || !email || !message) {
+            alert('Please fill in all fields.');
+            return;
+          }
+
+          // Send via EmailJS
+          emailjs.send('service_isvxe9s', 'template_eufvphw', {
+            from_name: name,
+            from_email: email,
+            message: message
+          })
+          .then(function(){
+            inputs.forEach(function(i){ i.value = ''; });
+            alert('Thanks! Your message has been sent.');
+          })
+          .catch(function(err){
+            console.error(err);
+            alert('Failed to send message. Please try again later.');
+          });
+        });
+      })();
+    </script>
     <script type="module" src="./script.js"></script>
 </body>
 </html>
