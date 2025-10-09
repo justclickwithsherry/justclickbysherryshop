@@ -144,7 +144,7 @@
                 return;
             }
             const hashHex = await sha256(entered);
-            if (hashHex === stored) { try { localStorage.setItem('jcws_admin', '1'); } catch {} location.href = './admin.html'; }
+            if (hashHex === stored) { try { localStorage.setItem('jcws_admin', '1'); localStorage.setItem('adminAuth','true'); } catch {} location.href = './admin.html'; }
             else document.getElementById('loginError').classList.remove('hidden');
         });
         document.getElementById('pwd').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ document.getElementById('confirmLogin').click(); } });

@@ -26,6 +26,17 @@
     </script>
 </head>
 <body class="bg-white text-slate-800 font-body">
+    <script>
+        // Simple client-side guard: redirect to start if not authenticated
+        (function(){
+            try {
+                var ok = localStorage.getItem('adminAuth') === 'true';
+                if (!ok) { window.location.replace('./start.html'); }
+            } catch (e) {
+                try { window.location.replace('./start.html'); } catch {}
+            }
+        })();
+    </script>
     <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-100">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -333,13 +344,9 @@
         document.getElementById('goToStartBtn').addEventListener('click', function() {
             const ok = confirm('Are you sure you want to logout of admin mode?');
             if (!ok) return;
-            try { localStorage.removeItem('jcws_admin'); } catch {}
+            try { localStorage.removeItem('jcws_admin'); localStorage.removeItem('adminAuth'); } catch {}
             window.location.href = './start.html';
         });
     </script>
 </body>
-<script>
-    // Ensure admin mode is active whenever the admin dashboard is open (per-origin)
-    (function(){ try { localStorage.setItem('jcws_admin','1'); } catch(e) {} })();
-</script>
 </html>
