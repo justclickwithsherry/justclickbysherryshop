@@ -36,13 +36,13 @@ async function ensureFirebaseHelpers() {
 // --- Product Catalog (clothes + lip tints) ---
 let products = [
   // Replace each image with your own product photo URL or local path.
-  { id: 'dress-soft-mint', name: 'Soft Mint Dress', price: 899, category: 'clothes', stock: 5, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Soft+Mint+Dress' },
-  { id: 'Fullset', name: 'Cream Linen Set', price: 1199, category: 'clothes', stock: 3, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Cream+Linen+Set' },
-  { id: 'cardigan-plum', name: 'Plum Cardigan', price: 980, category: 'clothes', stock: 0, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Plum+Cardigan' },
-  { id: 'tint-rose', name: 'Velvet Lip Tint – Rose', price: 299, category: 'lip-tint', stock: 10, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Rose' },
-  { id: 'tint-plum', name: 'Velvet Lip Tint – Plum', price: 299, category: 'lip-tint', stock: 8, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Plum' },
-  { id: 'tint-mocha', name: 'Velvet Lip Tint – Mocha', price: 299, category: 'lip-tint', stock: 0, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Mocha' },
-  { id: 'tint', name: 'Velvet  Tint – Mocha', price: 299, category: 'lip-tint', stock: 2, image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Mocha' },
+  { id: 'dress-soft-mint', name: 'Soft Mint Dress', price: 899, category: 'clothes', stock: 5, size: ['Small','Medium','Large'], image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Soft+Mint+Dress' },
+  { id: 'Fullset', name: 'Cream Linen Set', price: 1199, category: 'clothes', stock: 3, size: ['Small','Medium','Large'], image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Cream+Linen+Set' },
+  { id: 'cardigan-plum', name: 'Plum Cardigan', price: 980, category: 'clothes', stock: 0, size: ['Small','Medium','Large'], image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Plum+Cardigan' },
+  { id: 'tint-rose', name: 'Velvet Lip Tint – Rose', price: 299, category: 'lip-tint', stock: 10, size: ['One Size'], image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Rose' },
+  { id: 'tint-plum', name: 'Velvet Lip Tint – Plum', price: 299, category: 'lip-tint', stock: 8, size: ['One Size'], image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Plum' },
+  { id: 'tint-mocha', name: 'Velvet Lip Tint – Mocha', price: 299, category: 'lip-tint', stock: 0, size: ['One Size'], image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Mocha' },
+  { id: 'tint', name: 'Velvet  Tint – Mocha', price: 299, category: 'lip-tint', stock: 2, size: ['One Size'], image: 'https://placehold.co/600x450/FFFFFF/5A2753?text=Tint+Mocha' },
 ];
 
 // --- State ---
@@ -67,9 +67,10 @@ function loadCartFromStorage() {
 }
 
 function getCartItems() {
-  return Object.entries(cart).map(([id, quantity]) => {
+  return Object.entries(cart).map(([key, quantity]) => {
+    const [id, selectedSize] = String(key).split('::');
     const p = products.find((x) => x.id === id);
-    return { ...p, quantity };
+    return { ...p, id, cartKey: key, sizeSelected: selectedSize || (Array.isArray(p?.size) ? p.size[0] : 'One Size'), quantity };
   });
 }
 
@@ -131,6 +132,9 @@ function renderProducts() {
     sweater: "Sweater"
   }[p.category.toLowerCase()] || "others"}
 </div>
+        <div class="text-sm text-slate-600 mt-1 flex items-center gap-2">
+          <span>${Array.isArray(p.size) && p.size.length > 1 ? 'Sizes: ' + p.size.join(' • ') : 'Size: ' + ((p.size && p.size[0]) || 'One Size')}</span>
+        </div>
 
         <div class="flex items-center justify-between mb-4">
           <span class="font-display font-bold text-xl text-plum-500">${peso(p.price)}</span>
@@ -159,6 +163,56 @@ function renderProducts() {
   });
 }
 
+// Size selection modal + add
+function pickSizeThenAdd(product) {
+  const sizes = Array.isArray(product.size) && product.size.length ? product.size : ['One Size'];
+  if (sizes.length === 1) {
+    const key = `${product.id}::${sizes[0]}`;
+    const qty = cart[key] || 0;
+    cart[key] = qty + 1;
+    renderCart();
+    saveCartToStorage();
+    return;
+  }
+  const overlay = document.createElement('div');
+  overlay.className = 'fixed inset-0 z-[9998] bg-black/40 backdrop-blur-sm flex items-center justify-center';
+  const card = document.createElement('div');
+  card.className = 'w-[92%] max-w-sm md:max-w-md rounded-2xl shadow-2xl ring-1 ring-white/40 bg-gradient-to-br from-[#A8E6CF]/80 to-white/95 backdrop-blur-md p-6';
+  card.innerHTML = `
+    <div class="flex items-start gap-3">
+      <div class="shrink-0 w-12 h-12 rounded-2xl bg-white/70 ring-1 ring-white/60 flex items-center justify-center text-2xl text-[#5A2753]">📏</div>
+      <div class="flex-1">
+        <div class="text-lg font-semibold text-[#5A2753]">Choose Size</div>
+        <div class="mt-1 text-sm text-[#2E2E2E]">${product.name}</div>
+      </div>
+      <button class="text-[#5A2753]/70 hover:text-[#7A3E6C] text-lg">×</button>
+    </div>
+    <div class="mt-4">
+      <select id="__sizeSel" class="w-full rounded-xl ring-2 ring-[#DCEEEA] focus:ring-[#5A2753] px-3 py-2">
+        ${sizes.map(s => `<option value="${s}">${s}</option>`).join('')}
+      </select>
+    </div>
+    <div class="mt-6 flex justify-end gap-2">
+      <button id="__cancel" class="px-4 py-2 rounded-xl ring-2 ring-[#DCEEEA] text-[#2E2E2E] hover:ring-[#5A2753] transition-all">Cancel</button>
+      <button id="__confirm" class="px-5 py-2 rounded-xl bg-[#5A2753] text-white hover:bg-[#7A3E6C] transition-all">Add</button>
+    </div>
+  `;
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+  function close(){ try { document.body.removeChild(overlay); } catch(_){} }
+  card.querySelector('button').addEventListener('click', close);
+  card.querySelector('#__cancel').addEventListener('click', close);
+  card.querySelector('#__confirm').addEventListener('click', () => {
+    const sel = card.querySelector('#__sizeSel').value || sizes[0];
+    const key = `${product.id}::${sel}`;
+    const qty = cart[key] || 0;
+    cart[key] = qty + 1;
+    renderCart();
+    saveCartToStorage();
+    close();
+  });
+}
+
 function renderCart() {
   const itemsEl = document.getElementById('cartItems');
   const countEl = document.getElementById('cartCount');
@@ -177,6 +231,7 @@ function renderCart() {
       <img src="${item.image}" class="w-16 h-16 rounded-lg object-cover" alt="${item.name}" />
       <div class="flex-1">
         <div class="font-medium">${item.name}</div>
+        <div class="text-xs text-slate-500">Size: ${item.sizeSelected}</div>
         <div class="text-sm text-slate-500">${peso(item.price)} each</div>
         <div class="text-xs text-slate-400">Available: ${availableStock} in stock</div>
         <div class="mt-2 inline-flex items-center gap-2">
@@ -189,11 +244,11 @@ function renderCart() {
       <div class="font-semibold">${peso(item.price * item.quantity)}</div>
     `;
 
-    row.querySelector('.qty-dec').addEventListener('click', () => updateQty(item.id, item.quantity - 1));
+    row.querySelector('.qty-dec').addEventListener('click', () => updateQty(item.cartKey, item.quantity - 1));
     if (canIncrease) {
-      row.querySelector('.qty-inc').addEventListener('click', () => updateQty(item.id, item.quantity + 1));
+      row.querySelector('.qty-inc').addEventListener('click', () => updateQty(item.cartKey, item.quantity + 1));
     }
-    row.querySelector('.remove').addEventListener('click', () => removeFromCart(item.id));
+    row.querySelector('.remove').addEventListener('click', () => removeFromCart(item.cartKey));
     itemsEl.appendChild(row);
   });
 
@@ -205,57 +260,41 @@ function renderCart() {
 // --- Mutations ---
 function addToCart(productId) {
   const product = products.find(p => p.id === productId);
-  if (!product) {
-    alert('Product not found');
-    return;
-  }
-  
+  if (!product) { alert('Product not found'); return; }
   const currentStock = Number(product.stock || 0);
-  const currentCartQty = cart[productId] || 0;
-  
-  if (currentStock === 0) {
-    alert('This product is out of stock');
-    return;
-  }
-  
-  if (currentCartQty >= currentStock) {
-    alert(`Only ${currentStock} items available in stock`);
-    return;
-  }
-  
-  cart[productId] = currentCartQty + 1;
-  renderCart();
-  saveCartToStorage();
+  if (currentStock === 0) { alert('This product is out of stock'); return; }
+  pickSizeThenAdd(product);
 }
 
-function updateQty(productId, quantity) {
+function updateQty(cartKey, quantity) {
+  const [productId] = String(cartKey).split('::');
   const product = products.find(p => p.id === productId);
   if (!product) return;
   
   const currentStock = Number(product.stock || 0);
   
   if (quantity <= 0) {
-    delete cart[productId];
+    delete cart[cartKey];
   } else if (quantity > currentStock) {
     alert(`Only ${currentStock} items available in stock`);
     return;
   } else {
-    cart[productId] = quantity;
+    cart[cartKey] = quantity;
   }
   
   renderCart();
   saveCartToStorage();
 }
 
-function removeFromCart(productId) {
-  delete cart[productId];
+function removeFromCart(cartKey) {
+  delete cart[cartKey];
   renderCart();
   saveCartToStorage();
 }
 
 // --- Firestore Checkout ---
 async function checkout(customer) {
-  const items = getCartItems().map(({ id, name, price, quantity }) => ({ id, name, price, quantity }));
+  const items = getCartItems().map(({ id, name, price, quantity, sizeSelected }) => ({ id, name, price, quantity, size: sizeSelected }));
   if (items.length === 0) return alert('Your cart is empty.');
   
   // Validate stock before checkout
@@ -442,6 +481,7 @@ async function tryLoadProductsFromFirestore(){
         price: Number(p.price || 0),
         category: p.category || 'others',
         stock: Number(p.stock || 0),
+        size: Array.isArray(p.size) && p.size.length ? p.size : ['One Size'],
         image: p.image || 'https://placehold.co/600x450/FFFFFF/5A2753?text=Product'
       }));
     }

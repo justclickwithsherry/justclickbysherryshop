@@ -385,6 +385,9 @@
                      <div class="flex-1">
                          <div class="font-medium">${p.name}</div>
                          <div class="text-sm text-slate-500">${p.category || ''}</div>
+                         <div class="text-sm text-slate-600">
+          <span>${Array.isArray(p.size) && p.size.length > 1 ? 'Sizes: ' + p.size.join(' • ') : 'Size: ' + ((p.size && p.size[0]) || 'One Size')}</span>
+        </div>
                          <div class="mt-1 font-semibold">₱${Number(p.price||0).toFixed(2)}</div>
                          <div class="mt-2 flex items-center gap-2">
                              <span class="text-sm font-medium ${Number(p.stock || 0) > 0 ? 'text-green-600' : 'text-red-600'}">
@@ -418,6 +421,7 @@
        <input id="pmName" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Name">
        <input id="pmPrice" type="number" step="0.01" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Price">
        <input id="pmCategory" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Category (clothes/lip-tint/dress/full/top/perfume/accessory/pants/package/sweater)">
+       <input id="pmSize" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Size(s) e.g. Small, Medium, Large">
        <input id="pmStock" type="number" min="0" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Stock Quantity">
        <input id="pmImage" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Image URL">
      </div>
@@ -436,6 +440,7 @@
              document.getElementById('pmName').value = product?.name || '';
              document.getElementById('pmPrice').value = product?.price || '';
              document.getElementById('pmCategory').value = product?.category || '';
+             document.getElementById('pmSize').value = Array.isArray(product?.size) ? product.size.join(', ') : (product?.size || '');
              document.getElementById('pmStock').value = product?.stock || '';
              document.getElementById('pmImage').value = product?.image || '';
              document.getElementById('pmSave').onclick = async () => {
@@ -443,6 +448,11 @@
                      name: document.getElementById('pmName').value.trim(),
                      price: parseFloat(document.getElementById('pmPrice').value || '0'),
                      category: document.getElementById('pmCategory').value.trim(),
+                     size: (function(){
+                         const raw = (document.getElementById('pmSize').value || '').trim();
+                         if (!raw) return ['One Size'];
+                         return raw.split(',').map(s=>s.trim()).filter(Boolean);
+                     })(),
                      stock: parseInt(document.getElementById('pmStock').value || '0'),
                      image: document.getElementById('pmImage').value.trim()
                  };
