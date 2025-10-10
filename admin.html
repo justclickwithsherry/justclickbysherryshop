@@ -193,6 +193,46 @@
     </main>
 
     <script>
+        // Themed Alert Override for Admin (matches shop alerts)
+        (function setupAdminAlerts(){
+            try {
+                let toastContainer = document.getElementById('jcws_toasts');
+                if (!toastContainer) {
+                    toastContainer = document.createElement('div');
+                    toastContainer.id = 'jcws_toasts';
+                    toastContainer.className = 'fixed z-[9999] bottom-4 right-4 flex flex-col gap-3 pointer-events-none';
+                    document.body.appendChild(toastContainer);
+                }
+                const ICONS = { success:'✅', error:'❌', warning:'⚠️', info:'ℹ️' };
+                function createToast(type, message, ms){
+                    const kind = (type||'info').toLowerCase();
+                    const icon = ICONS[kind] || ICONS.info;
+                    const duration = Math.max(2000, Math.min(10000, ms || (kind==='error'?5000:3000)));
+                    const el = document.createElement('div');
+                    el.className = 'pointer-events-auto w-[min(92vw,380px)] rounded-xl shadow-2xl ring-1 ring-white/50 bg-gradient-to-br from-[#A8E6CF]/80 to-white/90 backdrop-blur-md px-4 py-3 transition-all duration-300 ease-in-out translate-y-3 opacity-0';
+                    const heading = kind==='success'?'Success':kind==='error'?'Error':kind==='warning'?'Warning':'Info';
+                    el.innerHTML = '<div class="flex items-start gap-3">\
+                        <div class="text-[#5A2753] text-xl">'+icon+'</div>\
+                        <div class="flex-1">\
+                          <div class="text-sm font-semibold text-[#5A2753]">'+heading+'</div>\
+                          <div class="mt-0.5 text-[13px] leading-snug text-[#2E2E2E]">'+String(message||'')+'</div>\
+                        </div>\
+                        <button aria-label="Close" class="ml-2 text-[#5A2753]/70 hover:text-[#7A3E6C] transition-colors text-sm">×</button>\
+                      </div>';
+                    const closeBtn = el.querySelector('button');
+                    function hide(){ el.style.opacity='0'; el.style.transform='translateY(8px)'; setTimeout(()=>{ try{toastContainer.removeChild(el)}catch(_){} },250); }
+                    closeBtn.addEventListener('click', hide);
+                    toastContainer.appendChild(el);
+                    requestAnimationFrame(()=>{ el.style.opacity='1'; el.style.transform='translateY(0)'; });
+                    setTimeout(hide, duration);
+                }
+                const nativeAlert = window.alert;
+                window.alert = function(message){ try{ createToast('info', message); } catch(e){ try{ nativeAlert(message); } catch(_){} } };
+                window.showAlert = function(type, message, opts){ createToast(type, message, opts && opts.duration); };
+            } catch(_){}
+        })();
+    </script>
+    <script>
         window.FIREBASE_CONFIG = {
           apiKey: "AIzaSyBs74HoIeuFoXE0G_mdD2eNBDsucuAEQCA",
           authDomain: "justclickshop-8081b.firebaseapp.com",

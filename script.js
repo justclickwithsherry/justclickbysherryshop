@@ -309,7 +309,7 @@ async function checkout(customer) {
     renderCart();
     saveCartToStorage();
     renderProducts(); // Re-render products to show updated stock
-    alert('Thank you! Your order was placed and stock has been updated.');
+    alert('Thank you! Your order was placed, wait for the confirmation message via facebook messenger.');
   } catch (err) {
     console.error(err);
     alert('Failed to place order. Please check your internet connection and try again.');
@@ -481,6 +481,83 @@ if (backBtn) {
     }
   });
 }
+
+// --- Themed Alert System (overrides window.alert without changing messages) ---
+// Creates elegant toasts matching the site's mint + plum theme
+(function setupThemedAlerts(){
+  try {
+    const ICONS = {
+      success: '✅',
+      error: '❌',
+      warning: '⚠️',
+      info: 'ℹ️'
+    };
+
+    function createCenteredModal(type, message, ms) {
+      const kind = (type || 'info').toLowerCase();
+      const icon = ICONS[kind] || ICONS.info;
+      const heading = kind === 'success' ? 'Success' : kind === 'error' ? 'Error' : kind === 'warning' ? 'Warning' : 'Info';
+      const duration = Math.max(2000, Math.min(12000, ms || (kind === 'error' ? 6000 : 4500)));
+
+      // Overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm';
+
+      // Card
+      const card = document.createElement('div');
+      card.className = [
+        'w-[92%] max-w-md md:max-w-lg',
+        'rounded-2xl shadow-2xl ring-1 ring-white/40',
+        'bg-gradient-to-br from-[#A8E6CF]/80 to-white/95 backdrop-blur-md',
+        'p-6 md:p-8',
+        'transition-all duration-300 ease-in-out',
+        'scale-95 opacity-0'
+      ].join(' ');
+      card.innerHTML = `
+        <div class="flex items-start gap-4">
+          <div class="shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/70 ring-1 ring-white/60 flex items-center justify-center text-2xl md:text-3xl text-[#5A2753]">${icon}</div>
+          <div class="flex-1">
+            <div class="text-lg md:text-xl font-semibold text-[#5A2753]">${heading}</div>
+            <div class="mt-1 text-[14px] md:text-[15px] leading-relaxed text-[#2E2E2E]">${String(message || '')}</div>
+          </div>
+          <button aria-label="Close" class="ml-2 text-[#5A2753]/80 hover:text-[#7A3E6C] transition-colors text-xl leading-none">×</button>
+        </div>
+      `;
+
+      const closeBtn = card.querySelector('button');
+      function hide() {
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.96)';
+        setTimeout(() => { try { document.body.removeChild(overlay); } catch(_){} }, 220);
+      }
+      closeBtn.addEventListener('click', hide);
+      overlay.addEventListener('click', function(ev){ if (ev.target === overlay) hide(); });
+
+      overlay.appendChild(card);
+      document.body.appendChild(overlay);
+      requestAnimationFrame(() => {
+        card.style.opacity = '1';
+        card.style.transform = 'scale(1)';
+      });
+      setTimeout(hide, duration);
+      return overlay;
+    }
+
+    // Public helper if pages want to call showAlert directly
+    window.showAlert = function(type, message, opts) { return createCenteredModal(type, message, opts && opts.duration); };
+    // Override native alert but keep messages/logic identical
+    const nativeAlert = window.alert;
+    window.alert = function(message) {
+      try {
+        const msg = String(message || '');
+        // Keep checkout confirmation a bit longer
+        const isCheckout = /thank you|order|placed|updated/i.test(msg);
+        createCenteredModal('info', msg, isCheckout ? 6000 : undefined);
+      }
+      catch (e) { try { nativeAlert(message); } catch(_) {} }
+    };
+  } catch (_) { /* no-op */ }
+})();
 
 
 
