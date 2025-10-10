@@ -107,15 +107,16 @@ function renderProducts() {
   toRender.forEach((p) => {
     const isOutOfStock = Number(p.stock || 0) === 0;
     const card = document.createElement('div');
-    card.className = `group bg-white rounded-2xl ring-1 ring-slate-100 shadow-sm overflow-hidden hover:-translate-y-0.5 hover:shadow transition ${isOutOfStock ? 'opacity-75' : ''}`;
+    card.className = `group bg-white/80 backdrop-blur-sm rounded-3xl ring-2 ring-mint-100 shadow-lg overflow-hidden hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 hover:ring-plum-500/30 ${isOutOfStock ? 'opacity-75' : ''} animate-scale-in`;
     card.innerHTML = `
       <div class="aspect-[4/3] overflow-hidden relative">
-        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition ${isOutOfStock ? 'grayscale' : ''}" />
-        ${isOutOfStock ? '<div class="absolute inset-0 bg-black/40 flex items-center justify-center"><span class="bg-red-500 text-white px-3 py-1 rounded-full font-semibold text-sm">Out of Stock</span></div>' : ''}
+        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${isOutOfStock ? 'grayscale' : ''}" />
+        ${isOutOfStock ? '<div class="absolute inset-0 bg-black/50 flex items-center justify-center"><span class="bg-red-500 text-white px-4 py-2 rounded-2xl font-semibold text-sm shadow-lg">Out of Stock</span></div>' : ''}
+        
       </div>
-      <div class="p-4">
-        <div class="font-medium">${p.name}</div>
-        <div class="text-sm text-slate-500">
+      <div class="p-6">
+        <div class="font-display font-bold text-lg text-plum-500 mb-2">${p.name}</div>
+        <div class="text-sm text-text-muted mb-4">
   ${{
     clothes: "Clothes",
     liptint: "Lip tint",
@@ -131,15 +132,22 @@ function renderProducts() {
   }[p.category.toLowerCase()] || "others"}
 </div>
 
-        <div class="mt-2 flex items-center justify-between">
-          <span class="font-semibold">${peso(p.price)}</span>
-          <span class="text-sm font-medium ${isOutOfStock ? 'text-red-600' : 'text-green-600'}">
-            Stock: ${Number(p.stock || 0)}
+        <div class="flex items-center justify-between mb-4">
+          <span class="font-display font-bold text-xl text-plum-500">${peso(p.price)}</span>
+          <span class="text-sm font-medium ${isOutOfStock ? 'text-red-500' : 'text-green-600'}">
+            Available: ${Number(p.stock || 0)}
           </span>
         </div>
         ${isOutOfStock ? 
-          `<button disabled class="mt-4 w-full rounded-full bg-gray-300 text-gray-500 px-4 py-2 cursor-not-allowed">Out of Stock</button>` :
-          `<button data-id="${p.id}" class="mt-4 w-full rounded-full bg-plum-500 text-white px-4 py-2 hover:bg-plum-600 transition">Add to Cart</button>`
+          `<button disabled class="w-full rounded-2xl bg-gray-200 text-gray-500 px-6 py-3 cursor-not-allowed font-medium">Out of Stock</button>` :
+          `<button data-id="${p.id}" class="w-full rounded-2xl bg-plum-500 text-white px-6 py-3 hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium group">
+            <span class="flex items-center justify-center gap-2">
+              <span>Add to Cart</span>
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"/>
+              </svg>
+            </span>
+          </button>`
         }
       </div>
     `;

@@ -6,32 +6,64 @@
     <title>Just Click by Sherry</title>
     <!-- TailwindCSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Professional font: Plus Jakarta Sans -->
+    <!-- Elegant fonts: Playfair Display + Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        mint: {
-                            50: '#f2fbf7',
-                            100: '#e6f7ef',
-                            200: '#c9efdf',
-                            300: '#a5e3cb',
-                            400: '#76d2b1',
-                            500: '#4ab997',
-                            600: '#359b80'
-                        },
+                        // Primary (plum) from image
                         plum: {
-                            500: '#6b2e63',
-                            600: '#5a2753'
+                            500: '#5A2753',
+                            600: '#7A3E6C'
+                        },
+                        // Secondary (mint gradient) from image
+                        mint: {
+                            50: '#A8E6CF',
+                            100: '#DCEEEA',
+                            200: '#C9EFDF',
+                            300: '#A5E3CB',
+                            400: '#76D2B1',
+                            500: '#4AB997',
+                            600: '#359B80'
+                        },
+                        // Accent (light lavender) from image
+                        lavender: {
+                            100: '#E8D5E9',
+                            200: '#D4B3D7'
+                        },
+                        // Text colors
+                        text: {
+                            primary: '#2E2E2E',
+                            muted: '#6B6B6B'
                         }
                     },
                     fontFamily: {
-                        display: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto'],
-                        body: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto']
+                        display: ['"Playfair Display"', 'serif'],
+                        body: ['"Poppins"', 'ui-sans-serif', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'scale-in': 'scaleIn 0.3s ease-out',
+                        'bounce': 'bounce 1s infinite'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' }
+                        }
                     }
                 }
             }
@@ -52,7 +84,7 @@
         };
     </script>
 </head>
-<body class="bg-white text-slate-800 font-body">
+<body class="bg-white text-text-primary font-body">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
     <!-- Header / Navbar -->
@@ -88,62 +120,135 @@
     </header>
 
     <!-- Hero -->
-    <section id="home" class="relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-mint-200 to-mint-400"></div>
-        <div class="absolute -left-24 -bottom-24 w-72 h-72 bg-plum-500/20 rounded-full blur-3xl"></div>
+    <section id="home" class="relative overflow-hidden min-h-screen flex items-center">
+        <div class="absolute inset-0 bg-gradient-to-r from-mint-50 to-mint-100"></div>
+        <div class="absolute -left-24 -bottom-24 w-72 h-72 bg-plum-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute -right-24 -top-24 w-96 h-96 bg-lavender-100/30 rounded-full blur-3xl"></div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-                <div class="max-w-3xl">
-                    <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight text-plum-600">Just Click</h2>
-                    <p class="mt-2 text-xl md:text-2xl text-plum-600/90 italic">by Sherry</p>
-                    <p class="mt-6 text-lg text-slate-700 max-w-2xl">Your lifestyle finds, just a click away. Discover elegant women’s fashion and soft-hue lip tints curated to make every day effortless.</p>
-                    <div class="mt-8 flex gap-3">
-                        <a href="#products" class="inline-flex items-center gap-2 rounded-full px-6 py-3 bg-plum-500 text-white hover:bg-plum-600 transition shadow">
-                            Shop Now
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="max-w-2xl animate-fade-in">
+                    <h1 class="text-5xl md:text-7xl font-display font-bold tracking-tight text-plum-500 leading-tight">
+                        Just Click
+                    </h1>
+                    <p class="mt-3 text-xl md:text-2xl font-display text-plum-500/80 italic">
+                        by Sherry
+                    </p>
+                    <p class="mt-8 text-lg text-text-muted leading-relaxed max-w-xl">
+                        Your lifestyle finds, just a click away. Discover elegant women's fashion and soft-hue lip tints curated to make every day effortless.
+                    </p>
+                    <div class="mt-10 flex flex-col sm:flex-row gap-4">
+                        <a href="#products" class="group inline-flex items-center justify-center gap-2 rounded-2xl px-8 py-4 bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">
+                            <span>Shop Now</span>
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
                         </a>
-                        <a href="#howto" class="inline-flex items-center gap-2 rounded-full px-6 py-3 bg-white text-plum-600 ring-1 ring-plum-500/20 hover:ring-plum-500/40 transition">
-                            How to Checkout
+                        <a href="#howto" class="inline-flex items-center justify-center gap-2 rounded-2xl px-8 py-4 bg-white/80 text-plum-500 ring-2 ring-plum-500/20 hover:ring-plum-500/40 hover:bg-lavender-100/50 transition-all duration-300 hover:scale-105 font-medium">
+                            <span>How to Checkout</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
                         </a>
                     </div>
                 </div>
-                <!-- Elegant hero placeholder image. Replace the src with your own banner/photo. -->
-                <div class="relative">
-                    <div class="absolute -inset-4 bg-white/30 rounded-3xl blur-xl"></div>
-                    <img src="https://placehold.co/800x560/BAE6D3/5A2753?text=Your+Elegant+Banner" alt="Elegant fashion banner"
-                         class="relative w-full h-auto rounded-3xl shadow-xl ring-1 ring-white/40 object-cover" />
+                <!-- Elegant hero image -->
+                <div class="relative animate-slide-up">
+                    <div class="absolute -inset-6 bg-gradient-to-r from-mint-100/50 to-lavender-100/50 rounded-3xl blur-2xl"></div>
+                    <div class="relative bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-2xl ring-1 ring-white/40">
+                        <img src="https://placehold.co/600x400/A8E6CF/5A2753?text=Elegant+Fashion" alt="Elegant fashion collection"
+                             class="w-full h-auto rounded-2xl shadow-lg object-cover hover:scale-105 transition-transform duration-500" />
+                        <div class="absolute -bottom-4 -right-4 w-20 h-20 bg-plum-500/20 rounded-full blur-xl"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to checkout -->
+    <section id="howto" class="py-20 bg-gradient-to-br from-mint-50/50 to-lavender-100/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-fade-in">
+                <h3 class="text-4xl font-display font-bold text-plum-500 mb-4">How to Checkout</h3>
+                <p class="text-lg text-text-muted max-w-2xl mx-auto">Simple steps to get your favorite items delivered to your doorstep</p>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="flex items-center justify-center mb-12">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold">1</div>
+                        <div class="w-16 h-1 bg-plum-500"></div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold">2</div>
+                        <div class="w-16 h-1 bg-plum-500"></div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold">3</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="group p-8 rounded-3xl bg-white/80 backdrop-blur-sm ring-1 ring-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 animate-slide-up">
+                    <div class="w-16 h-16 bg-gradient-to-br from-mint-100 to-mint-200 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-plum-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"/>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-display font-semibold text-plum-500 mb-4">Add to Cart</h4>
+                    <p class="text-text-muted leading-relaxed">Browse our elegant collection and press Add to Cart. Adjust quantities in your cart as needed.</p>
+                </div>
+                <div class="group p-8 rounded-3xl bg-white/80 backdrop-blur-sm ring-1 ring-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="w-16 h-16 bg-gradient-to-br from-lavender-100 to-lavender-200 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-plum-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-display font-semibold text-plum-500 mb-4">Review & Checkout</h4>
+                    <p class="text-text-muted leading-relaxed">Open your cart, confirm items, then click Checkout to place your order securely.</p>
+                </div>
+                <div class="group p-8 rounded-3xl bg-white/80 backdrop-blur-sm ring-1 ring-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 animate-slide-up" style="animation-delay: 0.4s">
+                    <div class="w-16 h-16 bg-gradient-to-br from-plum-500/10 to-plum-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-plum-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-display font-semibold text-plum-500 mb-4">Confirmation</h4>
+                    <p class="text-text-muted leading-relaxed">We store your order securely and will contact you via email or chat for delivery details.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Products -->
-    <section id="products" class="py-16">
+    <section id="products" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8">
-                <div>
-                    <h3 class="text-2xl font-semibold tracking-tight">Featured Products</h3>
-                    <div class="mt-1 text-sm text-slate-500">Elegant pieces in soft pastels and modern silhouettes</div>
-                </div>
-                <div class="relative flex items-center w-full max-w-sm">
+            <div class="text-center mb-16 animate-fade-in">
+                <h3 class="text-4xl font-display font-bold text-plum-500 mb-4">Featured Products</h3>
+                <p class="text-lg text-text-muted max-w-2xl mx-auto">Elegant pieces in soft pastels and modern silhouettes</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-6 mb-12">
+                <div class="relative flex-1 max-w-md mx-auto lg:mx-0">
                     <!-- Search Icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" 
-                         class="absolute left-3 h-5 w-5 text-slate-400" 
+                         class="absolute left-4 h-5 w-5 text-text-muted top-1/2 transform -translate-y-1/2" 
                          fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                             d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
                     </svg>
-                  
                     <!-- Search Input -->
                     <input 
                       id="prodSearch"
                       type="text"
                       placeholder="Search products..."
-                      class="flex-1 pl-10 pr-4 py-2 rounded-full ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500 text-sm"
+                      class="w-full pl-12 pr-4 py-3 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 focus:border-plum-500 text-sm bg-white/80 backdrop-blur-sm transition-all duration-300"
                     />
-                  </div>
-                <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-2 sm:items-center">
-                    
-                    <select id="prodCategory" class="px-4 py-2 rounded-full ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500 text-sm">
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-3 items-center">
+                    <select id="prodCategory" class="px-6 py-3 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 text-sm bg-white/80 backdrop-blur-sm transition-all duration-300">
                         <option value="all">All categories</option>
                         <option value="clothes">Clothes</option>
                         <option value="dress">Dress</option>
@@ -156,107 +261,151 @@
                         <option value="package">Packages</option>
                         <option value="sweater">Sweater</option>
                     </select>
-                    <a href="./products.html" class="inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 ring-1 ring-slate-200 hover:ring-plum-500 text-sm transition">View all</a>
+                    <a href="./products.html" class="inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-3 ring-2 ring-plum-500/20 text-plum-500 hover:ring-plum-500 hover:bg-plum-500 hover:text-white text-sm font-medium transition-all duration-300 hover:scale-105">
+                        <span>View all</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
 
-            <div id="productGrid" data-limit="responsive" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div id="productGrid" data-limit="responsive" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </div>
     </section>
 
-    <!-- How to checkout -->
-    <section id="howto" class="py-16 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h3 class="text-2xl font-semibold tracking-tight mb-8">Checkout Instructions</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="p-6 rounded-2xl bg-white ring-1 ring-slate-100 shadow-sm">
-                    <h4 class="font-semibold">1. Add to Cart</h4>
-                    <p class="mt-2 text-slate-600">Browse products and press Add to Cart. Adjust quantities in your cart.</p>
-                </div>
-                <div class="p-6 rounded-2xl bg-white ring-1 ring-slate-100 shadow-sm">
-                    <h4 class="font-semibold">2. Review & Checkout</h4>
-                    <p class="mt-2 text-slate-600">Open your cart, confirm items, then click Checkout to place an order.</p>
-                </div>
-                <div class="p-6 rounded-2xl bg-white ring-1 ring-slate-100 shadow-sm">
-                    <h4 class="font-semibold">3. Confirmation</h4>
-                    <p class="mt-2 text-slate-600">We store your order securely and will contact you via email or chat.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <!-- About -->
-    <section id="about" class="py-16">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h3 class="text-2xl font-semibold tracking-tight">Our Story</h3>
-            <p class="mt-4 text-slate-600">At Just Click, we believe that elegance should never feel complicated it should flow effortlessly into your everyday life. Our collections are carefully curated to combine timeless silhouettes with modern simplicity, creating pieces that are as versatile as they are refined. From soft pastels to confident hues, each product is thoughtfully designed to inspire confidence, comfort, and style. We are more than just a shop, we are a celebration of everyday beauty, helping you express yourself with grace in every moment</p>
+    <section id="about" class="py-20 bg-gradient-to-br from-mint-50/30 to-lavender-100/20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-fade-in">
+            <h3 class="text-4xl font-display font-bold text-plum-500 mb-8">Our Story</h3>
+            <div class="bg-white/60 backdrop-blur-sm rounded-3xl p-8 lg:p-12 shadow-xl ring-1 ring-white/40">
+                <p class="text-lg text-text-muted leading-relaxed">At Just Click, we believe that elegance should never feel complicated—it should flow effortlessly into your everyday life. Our collections are carefully curated to combine timeless silhouettes with modern simplicity, creating pieces that are as versatile as they are refined. From soft pastels to confident hues, each product is thoughtfully designed to inspire confidence, comfort, and style. We are more than just a shop, we are a celebration of everyday beauty, helping you express yourself with grace in every moment.</p>
+            </div>
         </div>
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="py-16 bg-slate-50">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h3 class="text-2xl font-semibold tracking-tight mb-6">Contact Us</h3>
-            <form id="contactForm" class="grid grid-cols-1 gap-4">
-                <input class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Name" required>
-                <input type="email" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Email" required>
-                <textarea rows="4" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Message" required></textarea>
-                <button class="mt-2 inline-flex justify-center rounded-full bg-plum-500 text-white px-6 py-3 hover:bg-plum-600 transition" type="submit">Send Message</button>
-            </form>
+    <section id="contact" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 animate-fade-in">
+                <h3 class="text-4xl font-display font-bold text-plum-500 mb-4">Contact Us</h3>
+                <p class="text-lg text-text-muted">We'd love to hear from you. Send us a message!</p>
+            </div>
+            <div class="bg-gradient-to-br from-mint-50/50 to-lavender-100/30 rounded-3xl p-8 lg:p-12 shadow-xl ring-1 ring-white/40 animate-slide-up">
+                <form id="contactForm" class="grid grid-cols-1 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Your Name" required>
+                        <input type="email" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Your Email" required>
+                    </div>
+                    <textarea rows="5" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Your Message" required></textarea>
+                    <button class="mt-4 inline-flex justify-center items-center gap-2 rounded-2xl bg-plum-500 text-white px-8 py-4 hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium" type="submit">
+                        <span>Send Message</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
         </div>
     </section>
 
     <!-- Cart Drawer -->
-    <div id="cartDrawer" class="fixed inset-y-0 right-0 w-full sm:w-[380px] bg-white shadow-2xl translate-x-full transition-transform duration-300 z-50 flex flex-col">
-        <div class="p-4 border-b flex items-center justify-between">
-            <h4 class="font-semibold">Your Cart</h4>
-            <button id="closeCart" class="text-slate-500 hover:text-plum-600">Close</button>
+    <div id="cartDrawer" class="fixed inset-y-0 right-0 w-full sm:w-[420px] bg-white/95 backdrop-blur-md shadow-2xl translate-x-full transition-transform duration-300 z-50 flex flex-col">
+        <div class="p-6 border-b border-mint-100 flex items-center justify-between bg-gradient-to-r from-mint-50/50 to-lavender-100/30">
+            <h4 class="text-xl font-display font-semibold text-plum-500">Your Cart</h4>
+            <button id="closeCart" class="text-text-muted hover:text-plum-600 transition-colors duration-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
         </div>
-        <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
-        <div class="p-4 border-t space-y-3">
-            <div class="flex items-center justify-between">
-                <span class="text-slate-600">Subtotal</span>
-                <span id="cartSubtotal" class="font-semibold">₱0.00</span>
+        <div id="cartItems" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
+        <div class="p-6 border-t border-mint-100 space-y-4 bg-gradient-to-r from-mint-50/30 to-lavender-100/20">
+            <div class="flex items-center justify-between text-lg">
+                <span class="text-text-muted font-medium">Subtotal</span>
+                <span id="cartSubtotal" class="font-display font-bold text-plum-500 text-xl">₱0.00</span>
             </div>
-            <button id="checkoutBtn" class="w-full rounded-full bg-plum-500 text-white px-6 py-3 hover:bg-plum-600 transition">Checkout</button>
+            <button id="checkoutBtn" class="w-full rounded-2xl bg-plum-500 text-white px-6 py-4 hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">
+                <span class="flex items-center justify-center gap-2">
+                    <span>Checkout</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                </span>
+            </button>
         </div>
     </div>
 
     <!-- Checkout Details Modal -->
-    <div id="checkoutModal" class="fixed inset-0 hidden items-center justify-center bg-black/30 z-50">
-        <div class="bg-white rounded-2xl p-6 w-[92%] max-w-md shadow-xl">
-            <h3 class="text-lg font-semibold">Delivery Details</h3>
-            <p class="mt-1 text-sm text-slate-600">Please provide your information to complete the order.</p>
-            <div class="grid gap-3 mt-4">
-                <input id="chkName" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Full name" />
-                <input id="chkPhone" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Phone number" />
-                <textarea id="chkAddress" rows="3" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Delivery address"></textarea>
-                <input id="chkFacebook" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Facebook name (optional)" />
-                <div class="mt-1 flex items-center gap-2">
-                    <input id="chkNotRobot" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-plum-600 focus:ring-plum-500" />
-                    <label for="chkNotRobot" class="text-sm text-slate-700">I'm not a robot</label>
+    <div id="checkoutModal" class="fixed inset-0 hidden items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl p-8 w-[92]%] max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl ring-1 ring-white/40">
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="flex items-center justify-center space-x-4">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold text-sm">1</div>
+                        <div class="w-12 h-1 bg-plum-500"></div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold text-sm">2</div>
+                        <div class="w-12 h-1 bg-plum-500"></div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold text-sm">3</div>
+                    </div>
                 </div>
+                <div class="flex justify-between text-xs text-text-muted mt-2">
+                    <span>Cart</span>
+                    <span>Details</span>
+                    <span>Payment</span>
+                </div>
+            </div>
+            
+            <h3 class="text-2xl font-display font-bold text-plum-500 mb-2">Delivery Details</h3>
+            <p class="text-text-muted mb-6">Please provide your information to complete the order.</p>
+            
+            <div class="grid gap-4">
+                <input id="chkName" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Full name" />
+                <input id="chkPhone" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Phone number" />
+                <textarea id="chkAddress" rows="3" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Delivery address"></textarea>
+                <input id="chkFacebook" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Facebook name (optional)" />
+                
+                <div class="flex items-center gap-3 p-4 rounded-2xl bg-mint-50/50">
+                    <input id="chkNotRobot" type="checkbox" class="h-5 w-5 rounded border-mint-200 text-plum-500 focus:ring-plum-500" />
+                    <label for="chkNotRobot" class="text-sm text-text-muted">I'm not a robot</label>
+                </div>
+                
                 <!-- Honeypot field: hidden from humans; bots often fill it. Must remain empty. -->
                 <input id="chkHoney" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
                 <!-- Simple CAPTCHA: customer copies the code shown -->
-                <div class="mt-2 grid grid-cols-[1fr_auto] items-center gap-2">
-                    <canvas id="chkCaptchaCanvas" width="200" height="56" class="rounded-xl ring-1 ring-slate-200 bg-slate-50"></canvas>
-                    <button id="chkCaptchaRefresh" type="button" class="px-3 py-2 rounded-full ring-1 ring-slate-200 text-sm hover:ring-plum-500">Refresh</button>
+                <div class="grid grid-cols-[1fr_auto] items-center gap-3">
+                    <canvas id="chkCaptchaCanvas" width="200" height="56" class="rounded-2xl ring-2 ring-mint-100 bg-mint-50/50"></canvas>
+                    <button id="chkCaptchaRefresh" type="button" class="px-4 py-3 rounded-2xl ring-2 ring-mint-100 text-sm hover:ring-plum-500 transition-all duration-300">Refresh</button>
                 </div>
-                <input id="chkCaptchaInput" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Enter the code above" />
-                <p id="chkError" class="hidden text-sm text-red-600">Please fill in name, phone, address, and confirm you're not a robot.</p>
+                <input id="chkCaptchaInput" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Enter the code above" />
+                <p id="chkError" class="hidden text-sm text-red-500 bg-red-50 p-3 rounded-2xl">Please fill in name, phone, address, and confirm you're not a robot.</p>
             </div>
-            <div class="mt-5 flex items-center justify-end gap-2">
-                <button id="chkCancel" class="px-4 py-2 rounded-full ring-1 ring-slate-200">Cancel</button>
-                <button id="chkSubmit" class="px-5 py-2 rounded-full bg-plum-500 text-white hover:bg-plum-600">Place Order</button>
+            
+            <div class="mt-8 flex items-center justify-end gap-3">
+                <button id="chkCancel" class="px-6 py-3 rounded-2xl ring-2 ring-mint-100 text-text-muted hover:ring-plum-500 hover:text-plum-500 transition-all duration-300">Cancel</button>
+                <button id="chkSubmit" class="px-8 py-3 rounded-2xl bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">
+                    <span class="flex items-center gap-2">
+                        <span>Place Order</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </span>
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Floating Start button (outside header for a cleaner look) -->
-    <a id="backToStart" href="./start.html" aria-label="Back to start" title="Back to start" class="fixed left-4 top-4 z-40 inline-flex items-center justify-center rounded-full w-10 h-10 bg-white ring-1 ring-slate-200 shadow hover:ring-plum-500 transition">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-slate-700">
+    <a id="backToStart" href="./start.html" aria-label="Back to start" title="Back to start" class="fixed left-2 top-2 z-40 inline-flex items-center justify-center rounded-2xl w-12 h-12 bg-white/90 backdrop-blur-sm ring-2 ring-mint-100 shadow-lg hover:ring-plum-500 hover:scale-110 transition-all duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-plum-500">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5M3 12h18"/>
         </svg>
     </a>

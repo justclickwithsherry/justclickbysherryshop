@@ -7,73 +7,130 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { mint: { 50: '#f2fbf7', 100: '#e6f7ef', 200: '#c9efdf', 300: '#a5e3cb', 400: '#76d2b1', 500: '#4ab997', 600: '#359b80' }, plum: { 500: '#6b2e63', 600: '#5a2753' } },
-                    fontFamily: { display: ['"Plus Jakarta Sans"','ui-sans-serif','system-ui','Segoe UI','Roboto'], body: ['"Plus Jakarta Sans"','ui-sans-serif','system-ui','Segoe UI','Roboto'] }
+                    colors: {
+                        // Primary (plum) from image
+                        plum: {
+                            500: '#5A2753',
+                            600: '#7A3E6C'
+                        },
+                        // Secondary (mint gradient) from image
+                        mint: {
+                            50: '#A8E6CF',
+                            100: '#DCEEEA',
+                            200: '#C9EFDF',
+                            300: '#A5E3CB',
+                            400: '#76D2B1',
+                            500: '#4AB997',
+                            600: '#359B80'
+                        },
+                        // Accent (light lavender) from image
+                        lavender: {
+                            100: '#E8D5E9',
+                            200: '#D4B3D7'
+                        },
+                        // Text colors
+                        text: {
+                            primary: '#2E2E2E',
+                            muted: '#6B6B6B'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['"Playfair Display"', 'serif'],
+                        body: ['"Poppins"', 'ui-sans-serif', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'scale-in': 'scaleIn 0.3s ease-out',
+                        'bounce': 'bounce 1s infinite'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' }
+                        }
+                    }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-white text-slate-800 font-body">
-    <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-100">
+<body class="bg-white text-text-primary font-body">
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-mint-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-mint-200 to-mint-400 flex items-center justify-center">
-                        <span class="text-plum-600 text-xl">⌂</span>
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-mint-100 to-mint-200 flex items-center justify-center shadow-lg">
+                        <span class="text-plum-500 text-xl">⌂</span>
                     </div>
                     <div class="leading-tight">
-                        <h1 class="text-xl font-semibold tracking-tight">All Products</h1>
-                        <p class="text-xs text-slate-500 -mt-1">Just Click by Sherry</p>
+                        <h1 class="text-xl font-display font-bold tracking-tight text-plum-500">All Products</h1>
+                        <p class="text-xs text-text-muted -mt-1">Just Click by Sherry</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <a href="./index.html#products" class="hidden md:inline-flex items-center gap-2 rounded-full px-4 py-2 ring-1 ring-slate-200 hover:ring-plum-500 text-sm transition">Back to shop</a>
+                <div class="flex items-center gap-3">
+                    <a href="./index.html#products" class="hidden md:inline-flex items-center gap-2 rounded-2xl px-6 py-3 ring-2 ring-mint-100 hover:ring-plum-500 text-sm font-medium transition-all duration-300 hover:scale-105">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.5 19.5L3 12l7.5-7.5M3 12h18"/>
+                        </svg>
+                        <span>Back to shop</span>
+                    </a>
                     <div id="adminControls" class="hidden items-center gap-2 mr-3">
-                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-200">Admin Mode</span>
-                        <a href="./admin.html" class="text-sm text-plum-600 hover:underline">Dashboard</a>
+                        <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-200">Admin Mode</span>
+                        <a href="./admin.html" class="text-sm text-plum-500 hover:underline font-medium">Dashboard</a>
                     </div>
-                    <button id="openCart" class="relative inline-flex items-center gap-2 rounded-full px-4 py-2 bg-plum-500 text-white hover:bg-plum-600 transition">
+                    <button id="openCart" class="relative inline-flex items-center gap-2 rounded-2xl px-6 py-3 bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"/>
+                        </svg>
                         <span>Cart</span>
-                        <span id="cartCount" class="text-xs bg-white text-plum-600 rounded-full px-2 py-0.5">0</span>
+                        <span id="cartCount" class="text-xs bg-white text-plum-500 rounded-full px-2 py-1 font-semibold">0</span>
                     </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="py-10">
+    <main class="py-20 bg-gradient-to-br from-mint-50/30 to-lavender-100/20 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-6">
-                <div>
-                    <h2 class="text-2xl font-semibold tracking-tight">All Products</h2>
-                    <div class="mt-1 text-sm text-slate-500">Browse the complete catalog</div>
-                </div>
-                <div class="relative flex items-center w-full max-w-sm">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-4xl font-display font-bold text-plum-500 mb-4">All Products</h2>
+                <p class="text-lg text-text-muted max-w-2xl mx-auto">Browse our complete collection of elegant fashion pieces</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-6 mb-12">
+                <div class="relative flex-1 max-w-md mx-auto lg:mx-0">
                     <!-- Search Icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" 
-                         class="absolute left-3 h-5 w-5 text-slate-400" 
+                         class="absolute left-4 h-5 w-5 text-text-muted top-1/2 transform -translate-y-1/2" 
                          fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                             d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
                     </svg>
-                  
                     <!-- Search Input -->
                     <input 
                       id="prodSearch"
                       type="text"
                       placeholder="Search products..."
-                      class="flex-1 pl-10 pr-4 py-2 rounded-full ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500 text-sm"
+                      class="w-full pl-12 pr-4 py-3 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 focus:border-plum-500 text-sm bg-white/80 backdrop-blur-sm transition-all duration-300"
                     />
-                  </div>
-                <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2 sm:items-center">
-                    
-                    <select id="prodCategory" class="px-4 py-2 rounded-full ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500 text-sm">
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-3 items-center">
+                    <select id="prodCategory" class="px-6 py-3 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 text-sm bg-white/80 backdrop-blur-sm transition-all duration-300">
                         <option value="all">All categories</option>
                         <option value="clothes">Clothes</option>
                         <option value="dress">Dress</option>
@@ -88,51 +145,97 @@
                     </select>
                 </div>
             </div>
-            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
         </div>
     </main>
 
     <!-- Cart Drawer -->
-    <div id="cartDrawer" class="fixed inset-y-0 right-0 w-full sm:w-[380px] bg-white shadow-2xl translate-x-full transition-transform duration-300 z-50 flex flex-col">
-        <div class="p-4 border-b flex items-center justify-between">
-            <h4 class="font-semibold">Your Cart</h4>
-            <button id="closeCart" class="text-slate-500 hover:text-plum-600">Close</button>
+    <div id="cartDrawer" class="fixed inset-y-0 right-0 w-full sm:w-[420px] bg-white/95 backdrop-blur-md shadow-2xl translate-x-full transition-transform duration-300 z-50 flex flex-col">
+        <div class="p-6 border-b border-mint-100 flex items-center justify-between bg-gradient-to-r from-mint-50/50 to-lavender-100/30">
+            <h4 class="text-xl font-display font-semibold text-plum-500">Your Cart</h4>
+            <button id="closeCart" class="text-text-muted hover:text-plum-600 transition-colors duration-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
         </div>
-        <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
-        <div class="p-4 border-t space-y-3">
-            <div class="flex items-center justify-between">
-                <span class="text-slate-600">Subtotal</span>
-                <span id="cartSubtotal" class="font-semibold">₱0.00</span>
+        <div id="cartItems" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
+        <div class="p-6 border-t border-mint-100 space-y-4 bg-gradient-to-r from-mint-50/30 to-lavender-100/20">
+            <div class="flex items-center justify-between text-lg">
+                <span class="text-text-muted font-medium">Subtotal</span>
+                <span id="cartSubtotal" class="font-display font-bold text-plum-500 text-xl">₱0.00</span>
             </div>
-            <button id="checkoutBtn" class="w-full rounded-full bg-plum-500 text-white px-6 py-3 hover:bg-plum-600 transition">Checkout</button>
+            <button id="checkoutBtn" class="w-full rounded-2xl bg-plum-500 text-white px-6 py-4 hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">
+                <span class="flex items-center justify-center gap-2">
+                    <span>Checkout</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                </span>
+            </button>
         </div>
     </div>
 
     <!-- Checkout Details Modal -->
-    <div id="checkoutModal" class="fixed inset-0 hidden items-center justify-center bg-black/30 z-50">
-        <div class="bg-white rounded-2xl p-6 w-[92%] max-w-md shadow-xl">
-            <h3 class="text-lg font-semibold">Delivery Details</h3>
-            <p class="mt-1 text-sm text-slate-600">Please provide your information to complete the order.</p>
-            <div class="grid gap-3 mt-4">
-                <input id="chkName" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Full name" />
-                <input id="chkPhone" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Phone number" />
-                <textarea id="chkAddress" rows="3" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Delivery address"></textarea>
-                <input id="chkFacebook" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Facebook name (optional)" />
-                <div class="mt-1 flex items-center gap-2">
-                    <input id="chkNotRobot" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-plum-600 focus:ring-plum-500" />
-                    <label for="chkNotRobot" class="text-sm text-slate-700">I'm not a robot</label>
+    <div id="checkoutModal" class="fixed inset-0 hidden items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl p-8 w-[92%] max-w-lg shadow-2xl ring-1 ring-white/40">
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="flex items-center justify-center space-x-4">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold text-sm">1</div>
+                        <div class="w-12 h-1 bg-plum-500"></div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold text-sm">2</div>
+                        <div class="w-12 h-1 bg-plum-500"></div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold text-sm">3</div>
+                    </div>
                 </div>
-                <input id="chkHoney" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
-                <div class="mt-2 grid grid-cols-[1fr_auto] items-center gap-2">
-                    <canvas id="chkCaptchaCanvas" width="200" height="56" class="rounded-xl ring-1 ring-slate-200 bg-slate-50"></canvas>
-                    <button id="chkCaptchaRefresh" type="button" class="px-3 py-2 rounded-full ring-1 ring-slate-200 text-sm hover:ring-plum-500">Refresh</button>
+                <div class="flex justify-between text-xs text-text-muted mt-2">
+                    <span>Cart</span>
+                    <span>Details</span>
+                    <span>Payment</span>
                 </div>
-                <input id="chkCaptchaInput" class="px-4 py-3 rounded-xl ring-1 ring-slate-200 focus:outline-none focus:ring-plum-500" placeholder="Enter the code above" />
-                <p id="chkError" class="hidden text-sm text-red-600">Please fill in name, phone, address, and confirm you're not a robot.</p>
             </div>
-            <div class="mt-5 flex items-center justify-end gap-2">
-                <button id="chkCancel" class="px-4 py-2 rounded-full ring-1 ring-slate-200">Cancel</button>
-                <button id="chkSubmit" class="px-5 py-2 rounded-full bg-plum-500 text-white hover:bg-plum-600">Place Order</button>
+            
+            <h3 class="text-2xl font-display font-bold text-plum-500 mb-2">Delivery Details</h3>
+            <p class="text-text-muted mb-6">Please provide your information to complete the order.</p>
+            
+            <div class="grid gap-4">
+                <input id="chkName" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Full name" />
+                <input id="chkPhone" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Phone number" />
+                <textarea id="chkAddress" rows="3" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Delivery address"></textarea>
+                <input id="chkFacebook" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Facebook name (optional)" />
+                
+                <div class="flex items-center gap-3 p-4 rounded-2xl bg-mint-50/50">
+                    <input id="chkNotRobot" type="checkbox" class="h-5 w-5 rounded border-mint-200 text-plum-500 focus:ring-plum-500" />
+                    <label for="chkNotRobot" class="text-sm text-text-muted">I'm not a robot</label>
+                </div>
+                
+                <input id="chkHoney" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+                <div class="grid grid-cols-[1fr_auto] items-center gap-3">
+                    <canvas id="chkCaptchaCanvas" width="200" height="56" class="rounded-2xl ring-2 ring-mint-100 bg-mint-50/50"></canvas>
+                    <button id="chkCaptchaRefresh" type="button" class="px-4 py-3 rounded-2xl ring-2 ring-mint-100 text-sm hover:ring-plum-500 transition-all duration-300">Refresh</button>
+                </div>
+                <input id="chkCaptchaInput" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Enter the code above" />
+                <p id="chkError" class="hidden text-sm text-red-500 bg-red-50 p-3 rounded-2xl">Please fill in name, phone, address, and confirm you're not a robot.</p>
+            </div>
+            
+            <div class="mt-8 flex items-center justify-end gap-3">
+                <button id="chkCancel" class="px-6 py-3 rounded-2xl ring-2 ring-mint-100 text-text-muted hover:ring-plum-500 hover:text-plum-500 transition-all duration-300">Cancel</button>
+                <button id="chkSubmit" class="px-8 py-3 rounded-2xl bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">
+                    <span class="flex items-center gap-2">
+                        <span>Place Order</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </span>
+                </button>
             </div>
         </div>
     </div>

@@ -7,25 +7,68 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        mint: { 50: '#f2fbf7', 100: '#e6f7ef', 200: '#c9efdf', 300: '#a5e3cb', 400: '#76d2b1', 500: '#4ab997', 600: '#359b80' },
-                        plum: { 500: '#6b2e63', 600: '#5a2753' }
+                        // Primary (plum) from image
+                        plum: {
+                            500: '#5A2753',
+                            600: '#7A3E6C'
+                        },
+                        // Secondary (mint gradient) from image
+                        mint: {
+                            50: '#A8E6CF',
+                            100: '#DCEEEA',
+                            200: '#C9EFDF',
+                            300: '#A5E3CB',
+                            400: '#76D2B1',
+                            500: '#4AB997',
+                            600: '#359B80'
+                        },
+                        // Accent (light lavender) from image
+                        lavender: {
+                            100: '#E8D5E9',
+                            200: '#D4B3D7'
+                        },
+                        // Text colors
+                        text: {
+                            primary: '#2E2E2E',
+                            muted: '#6B6B6B'
+                        }
                     },
                     fontFamily: {
-                        body: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto'],
-                        display: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto']
+                        display: ['"Playfair Display"', 'serif'],
+                        body: ['"Poppins"', 'ui-sans-serif', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'scale-in': 'scaleIn 0.3s ease-out',
+                        'bounce': 'bounce 1s infinite'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' }
+                        }
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-white text-slate-800 font-body">
+<body class="bg-gradient-to-br from-mint-50/30 to-lavender-100/20 text-text-primary font-body min-h-screen">
     <script>
         // Simple client-side guard: redirect to start if not authenticated
         (function(){
@@ -37,65 +80,115 @@
             }
         })();
     </script>
-    <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-100">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-mint-100">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-mint-200 to-mint-400 flex items-center justify-center">
-                    <span class="text-plum-600 text-xl">⌂</span>
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-mint-100 to-mint-200 flex items-center justify-center shadow-lg">
+                    <span class="text-plum-500 text-xl">⌂</span>
                 </div>
                 <div class="leading-tight">
-                    <h1 class="text-lg font-semibold tracking-tight">Admin Dashboard</h1>
-                    <p class="text-xs text-slate-500 -mt-0.5">Just Click by Sherry</p>
+                    <h1 class="text-xl font-display font-bold tracking-tight text-plum-500">Admin Dashboard</h1>
+                    <p class="text-xs text-text-muted -mt-0.5">Just Click by Sherry</p>
                 </div>
             </div>
             <div class="flex items-center gap-3">
-                <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-200">Admin Mode</span>
-                <a href="./index.html" class="text-sm text-plum-600 hover:underline">Customer View</a>
-                <button id="goToStartBtn" class="rounded-full px-4 py-2 bg-plum-500 text-white hover:bg-plum-600 transition text-sm">Logout</button>
+                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-200">Admin Mode</span>
+                <a href="./index.html" class="text-sm text-plum-500 hover:underline font-medium">Customer View</a>
+                <button id="goToStartBtn" class="rounded-2xl px-6 py-3 bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl text-sm font-medium">
+                    <span class="flex items-center gap-2">
+                        <span>Logout</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                    </span>
+                </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-8">
-        <div class="flex items-center gap-3 mb-6">
-            <button id="tabOrders" class="rounded-full px-4 py-2 bg-plum-500 text-white hover:bg-plum-600 transition">Orders</button>
-            <button id="tabProducts" class="rounded-full px-4 py-2 ring-1 ring-slate-200 hover:ring-plum-500 hover:text-plum-600 transition">Products</button>
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <div class="flex items-center gap-4 mb-8">
+            <button id="tabOrders" class="rounded-2xl px-6 py-3 bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">
+                <span class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span>Orders</span>
+                </span>
+            </button>
+            <button id="tabProducts" class="rounded-2xl px-6 py-3 ring-2 ring-mint-100 hover:ring-plum-500 hover:text-plum-500 transition-all duration-300 hover:scale-105 font-medium">
+                <span class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                    </svg>
+                    <span>Products</span>
+                </span>
+            </button>
         </div>
 
         <!-- Orders Panel -->
-        <section id="panelOrders" class="block">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-semibold flex items-center gap-2">
-                    <span class="inline-block w-5 h-5">🧾</span> Orders
-                </h2>
-                <div class="flex flex-wrap gap-2 items-center">
-                    <input id="searchInput" class="px-3 py-2 rounded-full ring-1 ring-slate-200 text-sm focus:outline-none focus:ring-plum-500" placeholder="Search id or item...">
-                    <input id="dateFrom" type="date" class="px-3 py-2 rounded-full ring-1 ring-slate-200 text-sm focus:outline-none focus:ring-plum-500">
-                    <input id="dateTo" type="date" class="px-3 py-2 rounded-full ring-1 ring-slate-200 text-sm focus:outline-none focus:ring-plum-500">
-                    <select id="pageSize" class="px-3 py-2 rounded-full ring-1 ring-slate-200 text-sm focus:outline-none focus:ring-plum-500">
-                        <option value="6">6</option>
-                        <option value="12">12</option>
-                        <option value="24">24</option>
-                    </select>
-                    <button id="refreshOrders" class="text-sm rounded-full px-4 py-2 ring-1 ring-slate-200 hover:ring-plum-500 hover:text-plum-600 transition">Refresh</button>
+        <section id="panelOrders" class="block animate-fade-in">
+            <div class="bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl ring-1 ring-white/40 mb-8">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8">
+                    <h2 class="text-3xl font-display font-bold text-plum-500 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-mint-100 to-mint-200 rounded-2xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-plum-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        Orders
+                    </h2>
+                    <div class="flex flex-wrap gap-3 items-center">
+                        <input id="searchInput" class="px-4 py-3 rounded-2xl ring-2 ring-mint-100 text-sm focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Search orders...">
+                        <input id="dateFrom" type="date" class="px-4 py-3 rounded-2xl ring-2 ring-mint-100 text-sm focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300">
+                        <input id="dateTo" type="date" class="px-4 py-3 rounded-2xl ring-2 ring-mint-100 text-sm focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300">
+                        <select id="pageSize" class="px-4 py-3 rounded-2xl ring-2 ring-mint-100 text-sm focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300">
+                            <option value="6">6 per page</option>
+                            <option value="12">12 per page</option>
+                            <option value="24">24 per page</option>
+                        </select>
+                        <button id="refreshOrders" class="text-sm rounded-2xl px-6 py-3 ring-2 ring-mint-100 hover:ring-plum-500 hover:text-plum-500 transition-all duration-300 hover:scale-105 font-medium">
+                            <span class="flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                <span>Refresh</span>
+                            </span>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div id="orders" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            <div class="mt-4 flex items-center justify-between">
-                <button id="prevPage" class="rounded-full px-4 py-2 ring-1 ring-slate-200 hover:ring-plum-500 transition">Prev</button>
-                <div id="pageInfo" class="text-sm text-slate-600">Page 1</div>
-                <button id="nextPage" class="rounded-full px-4 py-2 ring-1 ring-slate-200 hover:ring-plum-500 transition">Next</button>
+                <div id="orders" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+                <div class="mt-8 flex items-center justify-between">
+                    <button id="prevPage" class="rounded-2xl px-6 py-3 ring-2 ring-mint-100 hover:ring-plum-500 transition-all duration-300 hover:scale-105 font-medium">Previous</button>
+                    <div id="pageInfo" class="text-sm text-text-muted font-medium">Page 1</div>
+                    <button id="nextPage" class="rounded-2xl px-6 py-3 ring-2 ring-mint-100 hover:ring-plum-500 transition-all duration-300 hover:scale-105 font-medium">Next</button>
+                </div>
             </div>
         </section>
 
         <!-- Products Panel -->
-        <section id="panelProducts" class="hidden">
-            
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-semibold">Products</h2>
-                <button id="addProductBtn" class="rounded-full px-4 py-2 bg-plum-500 text-white hover:bg-plum-600 transition">Add Product</button>
+        <section id="panelProducts" class="hidden animate-fade-in">
+            <div class="bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl ring-1 ring-white/40">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-3xl font-display font-bold text-plum-500 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-mint-100 to-mint-200 rounded-2xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-plum-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                            </svg>
+                        </div>
+                        Products
+                    </h2>
+                    <button id="addProductBtn" class="rounded-2xl px-6 py-3 bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                            <span>Add Product</span>
+                        </span>
+                    </button>
+                </div>
+                <div id="productsList" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
             </div>
-            <div id="productsList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
     </main>
 
