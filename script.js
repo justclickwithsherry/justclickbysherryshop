@@ -92,7 +92,7 @@ function renderProducts() {
     toRender = toRender.filter(p => (p.name + ' ' + (p.category||'')).toLowerCase().includes(query));
   }
   if (cat && cat !== 'all') {
-    toRender = toRender.filter(p => (p.category||'') === cat);
+    toRender = toRender.filter(p => (p.category||'').toLowerCase() === cat.toLowerCase());
   }
   // If grid has data-limit=responsive, cap to two rows based on current columns
   const limitMode = grid.getAttribute('data-limit');
@@ -131,6 +131,7 @@ function renderProducts() {
     package: "Package",
     sweater: "Sweater"
   }[p.category.toLowerCase()] || "others"}
+
 </div>
         <div class="text-sm text-slate-600 mt-1">
           <span>${Array.isArray(p.size) && p.size.length > 1 ? 'Sizes: ' + p.size.join(' • ') : 'Size: ' + ((p.size && p.size[0]) || 'One Size')}</span>
