@@ -49,7 +49,9 @@
                         'fade-in': 'fadeIn 0.6s ease-out',
                         'slide-up': 'slideUp 0.6s ease-out',
                         'scale-in': 'scaleIn 0.3s ease-out',
-                        'bounce': 'bounce 1s infinite'
+                        'bounce': 'bounce 1s infinite',
+                        'ken-burns': 'kenBurns 20s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite'
                     },
                     keyframes: {
                         fadeIn: {
@@ -63,6 +65,16 @@
                         scaleIn: {
                             '0%': { opacity: '0', transform: 'scale(0.95)' },
                             '100%': { opacity: '1', transform: 'scale(1)' }
+                        },
+                        kenBurns: {
+                            '0%, 100%': { transform: 'scale(1) translateX(0) translateY(0)' },
+                            '25%': { transform: 'scale(1.05) translateX(-2%) translateY(-1%)' },
+                            '50%': { transform: 'scale(1.1) translateX(2%) translateY(1%)' },
+                            '75%': { transform: 'scale(1.05) translateX(-1%) translateY(2%)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
                         }
                     }
                 }
@@ -119,49 +131,70 @@
         </div>
     </header>
 
-    <!-- Hero -->
-    <section id="home" class="relative overflow-hidden min-h-screen flex items-center">
-        <div class="absolute inset-0 bg-gradient-to-r from-mint-50 to-mint-100"></div>
-        <div class="absolute -left-24 -bottom-24 w-72 h-72 bg-plum-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute -right-24 -top-24 w-96 h-96 bg-lavender-100/30 rounded-full blur-3xl"></div>
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="max-w-2xl animate-fade-in">
-                    <h1 class="text-5xl md:text-7xl font-display font-bold tracking-tight text-plum-500 leading-tight">
-                        Just Click
-                    </h1>
-                    <p class="mt-3 text-xl md:text-2xl font-display text-plum-500/80 italic">
-                        by Sherry
-                    </p>
-                    <p class="mt-8 text-lg text-text-muted leading-relaxed max-w-xl">
-                        Your lifestyle finds, just a click away. Discover elegant women's fashion and soft-hue lip tints curated to make every day effortless.
-                    </p>
-                    <div class="mt-10 flex flex-col sm:flex-row gap-4">
-                        <a href="#products" class="group inline-flex items-center justify-center gap-2 rounded-2xl px-8 py-4 bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">
-                            <span>Shop Now</span>
-                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                            </svg>
-                        </a>
-                        <a href="#howto" class="inline-flex items-center justify-center gap-2 rounded-2xl px-8 py-4 bg-white/80 text-plum-500 ring-2 ring-plum-500/20 hover:ring-plum-500/40 hover:bg-lavender-100/50 transition-all duration-300 hover:scale-105 font-medium">
-                            <span>How to Checkout</span>
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <!-- Elegant hero image -->
-                <div class="relative animate-slide-up">
-                    <div class="absolute -inset-6 bg-gradient-to-r from-mint-100/50 to-lavender-100/50 rounded-3xl blur-2xl"></div>
-                    <div class="relative bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-2xl ring-1 ring-white/40">
-                        <img src="https://placehold.co/600x400/A8E6CF/5A2753?text=Elegant+Fashion" alt="Elegant fashion collection"
-                             class="w-full h-auto rounded-2xl shadow-lg object-cover hover:scale-105 transition-transform duration-500" />
-                        <div class="absolute -bottom-4 -right-4 w-20 h-20 bg-plum-500/20 rounded-full blur-xl"></div>
-                    </div>
-                </div>
+    <!-- Hero Slideshow -->
+    <section id="home" class="relative overflow-hidden min-h-screen">
+        <!-- Slideshow Container -->
+        <div id="heroSlideshow" class="relative w-full h-screen">
+            <!-- Slide 1: Elegant Dress -->
+            <div class="slideshow-slide absolute inset-0 opacity-100 transition-all duration-1000 ease-in-out">
+                <div class="absolute inset-0 bg-gradient-to-br from-mint-50/80 to-lavender-100/60"></div>
+                <img src="./images/New_1.png" 
+                     alt="Elegant Dress Collection" 
+                     class="w-full h-full object-cover animate-ken-burns" />
+                <div class="absolute inset-0 bg-black/10"></div>
+            </div>
+            
+            <!-- Slide 2: Soft Pastels -->
+            <div class="slideshow-slide absolute inset-0 opacity-0 transition-all duration-1000 ease-in-out">
+                <div class="absolute inset-0 bg-gradient-to-br from-mint-50/80 to-lavender-100/60"></div>
+                <img src="https://placehold.co/1920x1080/A8E6CF/5A2753?text=Soft+Pastel+Fashion" 
+                     alt="Soft Pastel Fashion" 
+                     class="w-full h-full object-cover animate-ken-burns" />
+                <div class="absolute inset-0 bg-black/10"></div>
+            </div>
+            
+            <!-- Slide 3: Lip Tints -->
+            <div class="slideshow-slide absolute inset-0 opacity-0 transition-all duration-1000 ease-in-out">
+                <div class="absolute inset-0 bg-gradient-to-br from-mint-50/80 to-lavender-100/60"></div>
+                <img src="https://placehold.co/1920x1080/E8D5E9/5A2753?text=Lip+Tint+Collection" 
+                     alt="Lip Tint Collection" 
+                     class="w-full h-full object-cover animate-ken-burns" />
+                <div class="absolute inset-0 bg-black/10"></div>
+            </div>
+            
+            <!-- Slide 4: Modern Silhouettes -->
+            <div class="slideshow-slide absolute inset-0 opacity-0 transition-all duration-1000 ease-in-out">
+                <div class="absolute inset-0 bg-gradient-to-br from-mint-50/80 to-lavender-100/60"></div>
+                <img src="https://placehold.co/1920x1080/F5F2ED/5A2753?text=Modern+Silhouettes" 
+                     alt="Modern Silhouettes" 
+                     class="w-full h-full object-cover animate-ken-burns" />
+                <div class="absolute inset-0 bg-black/10"></div>
             </div>
         </div>
+        
+        
+        
+        <!-- Shop Now Button (Bottom Left) -->
+        <div class="absolute bottom-8 left-8 z-20 animate-float">
+            <a href="#products" class="group inline-flex items-center justify-center gap-3 rounded-2xl px-8 py-4 bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-2xl font-medium backdrop-blur-sm bg-opacity-95">
+                <span class="text-lg">Shop Now</span>
+                <svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+            </a>
+        </div>
+        
+        <!-- Dot Navigation -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">
+            <button class="slideshow-dot w-3 h-3 rounded-full bg-white/80 hover:bg-white transition-all duration-300 hover:scale-125 active" data-slide="0"></button>
+            <button class="slideshow-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 transition-all duration-300 hover:scale-125" data-slide="1"></button>
+            <button class="slideshow-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 transition-all duration-300 hover:scale-125" data-slide="2"></button>
+            <button class="slideshow-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 transition-all duration-300 hover:scale-125" data-slide="3"></button>
+        </div>
+        
+        <!-- Decorative Elements -->
+        <div class="absolute -left-24 -bottom-24 w-72 h-72 bg-plum-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute -right-24 -top-24 w-96 h-96 bg-lavender-100/30 rounded-full blur-3xl"></div>
     </section>
 
     <!-- How to checkout -->
@@ -221,13 +254,13 @@
         </div>
     </section>
 
-    <!-- Products -->
+    <!--  s -->
     <section id="products" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 animate-fade-in">
                 <h3 class="text-4xl font-display font-bold text-plum-500 mb-4">Featured Products</h3>
                 <p class="text-lg text-text-muted max-w-2xl mx-auto">Elegant pieces in soft pastels and modern silhouettes</p>
-            </div>
+                </div>
             
             <div class="flex flex-col lg:flex-row gap-6 mb-12">
                 <div class="relative flex-1 max-w-md mx-auto lg:mx-0">
@@ -245,8 +278,8 @@
                       placeholder="Search products..."
                       class="w-full pl-12 pr-4 py-3 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 focus:border-plum-500 text-sm bg-white/80 backdrop-blur-sm transition-all duration-300"
                     />
-                </div>
-                
+                  </div>
+                    
                 <div class="flex flex-col sm:flex-row gap-3 items-center">
                     <select id="prodCategory" class="px-6 py-3 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 text-sm bg-white/80 backdrop-blur-sm transition-all duration-300">
                         <option value="all">All categories</option>
@@ -306,7 +339,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
                         </svg>
                     </button>
-                </form>
+            </form>
             </div>
         </div>
     </section>
@@ -470,9 +503,107 @@
             alert('Failed to send message. Please try again later.');
           });
         });
-      })();
+        })();
     </script>
     <script type="module" src="./script.js"></script>
+    
+    <!-- Slideshow JavaScript -->
+    <script>
+        (function initSlideshow() {
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slideshow-slide');
+            const dots = document.querySelectorAll('.slideshow-dot');
+            const totalSlides = slides.length;
+            
+            // Function to show a specific slide
+            function showSlide(index) {
+                // Hide all slides
+                slides.forEach((slide, i) => {
+                    slide.style.opacity = i === index ? '1' : '0';
+                    slide.style.transform = i === index ? 'scale(1)' : 'scale(1.05)';
+                });
+                
+                // Update dots
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                    dot.classList.toggle('bg-white/80', i === index);
+                    dot.classList.toggle('bg-white/50', i !== index);
+                });
+                
+                currentSlide = index;
+            }
+            
+            // Function to go to next slide
+            function nextSlide() {
+                const next = (currentSlide + 1) % totalSlides;
+                showSlide(next);
+            }
+            
+            // Function to go to previous slide
+            function prevSlide() {
+                const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+                showSlide(prev);
+            }
+            
+            // Add click event listeners to dots
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => showSlide(index));
+            });
+            
+            // Auto-advance slideshow every 5 seconds
+            let autoSlideInterval = setInterval(nextSlide, 5000);
+            
+            // Pause auto-advance on hover
+            const slideshow = document.getElementById('heroSlideshow');
+            slideshow.addEventListener('mouseenter', () => {
+                clearInterval(autoSlideInterval);
+            });
+            
+            slideshow.addEventListener('mouseleave', () => {
+                autoSlideInterval = setInterval(nextSlide, 5000);
+            });
+            
+            // Touch/swipe support for mobile
+            let startX = 0;
+            let startY = 0;
+            let endX = 0;
+            let endY = 0;
+            
+            slideshow.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            });
+            
+            slideshow.addEventListener('touchend', (e) => {
+                endX = e.changedTouches[0].clientX;
+                endY = e.changedTouches[0].clientY;
+                
+                const diffX = startX - endX;
+                const diffY = startY - endY;
+                
+                // Only trigger if horizontal swipe is more significant than vertical
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                    if (diffX > 0) {
+                        nextSlide(); // Swipe left - next slide
+                    } else {
+                        prevSlide(); // Swipe right - previous slide
+                    }
+                }
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                } else if (e.key === 'ArrowRight') {
+                    nextSlide();
+                }
+            });
+            
+            // Initialize slideshow
+            showSlide(0);
+        })();
+    </script>
 </body>
 </html>
 
