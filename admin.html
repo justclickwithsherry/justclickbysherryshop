@@ -242,6 +242,213 @@
           appId: "1:623998776057:web:f488332b7b49bbc3f5a828",
           measurementId: "G-DTDJ1CGMWB"
         };
+
+        // Global variables for order data
+        let allOrders = [];
+
+        // Helper function to create print content
+        function createPrintContent(orderId, order, items, total, time, customer) {
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Order Receipt - ${orderId}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+                        .header { text-align: center; border-bottom: 2px solid #5A2753; padding-bottom: 20px; margin-bottom: 30px; }
+                        .order-info { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+                        .customer-info { background: #e8f5e8; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+                        .items { margin-bottom: 20px; }
+                        .total { font-size: 18px; font-weight: bold; text-align: right; border-top: 2px solid #5A2753; padding-top: 10px; }
+                        .footer { text-align: center; margin-top: 30px; color: #666; }
+                        @media print { body { margin: 0; } }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1 style="color: #5A2753; margin: 0;">Just Click by Sherry</h1>
+                        <p style="margin: 5px 0; color: #666;">Order Receipt</p>
+                    </div>
+                    
+                    <div class="order-info">
+                        <h3 style="margin-top: 0; color: #5A2753;">Order Details</h3>
+                        <p><strong>Order ID:</strong> ${orderId}</p>
+                        <p><strong>Date:</strong> ${time}</p>
+                        <p><strong>Status:</strong> ${order.status || 'Pending'}</p>
+                    </div>
+                    
+                    ${(customer.name || customer.phone || customer.address || customer.facebook) ? `
+                    <div class="customer-info">
+                        <h3 style="margin-top: 0; color: #5A2753;">Customer Information</h3>
+                        ${customer.name ? `<p><strong>Name:</strong> ${customer.name}</p>` : ''}
+                        ${customer.phone ? `<p><strong>Phone:</strong> ${customer.phone}</p>` : ''}
+                        ${customer.address ? `<p><strong>Address:</strong> ${customer.address}</p>` : ''}
+                    </div>` : ''}
+                    
+                    <div class="items">
+                        <h3 style="color: #5A2753;">Items Ordered</h3>
+                        <div>${items || 'No items'}</div>
+                    </div>
+                    
+                    <div class="total">
+                        <strong>Total: ₱${total}</strong>
+                    </div>
+                    
+                    <div class="footer">
+                        <p>Thank you for your order!</p>
+                        <p>Generated on ${new Date().toLocaleString()}</p>
+                    </div>
+                </body>
+                </html>
+            `;
+        }
+
+        // Print and Export Functions (Global scope)
+        function printOrderAsPDF(orderId) {
+            try {
+                const order = (window.allOrders || allOrders).find(o => o.id === orderId);
+                if (!order) {
+                    alert('Order not found');
+                    return;
+                }
+                
+                const items = (order.items || []).map(i => `${i.name} (${i.size || 'One Size'}) × ${i.quantity} — ₱${Number(i.price).toFixed(2)}`).join('<br>');
+                const total = Number(order.total || 0).toFixed(2);
+                const time = order.createdAt?.toDate ? order.createdAt.toDate().toLocaleString() : new Date().toLocaleString();
+                const customer = order.customer || {};
+                
+                const printWindow = window.open('', '_blank', 'width=800,height=600');
+                if (!printWindow || printWindow.closed || typeof printWindow.closed == 'undefined') {
+                    // Fallback: create a temporary div and print it
+                    const printContent = createPrintContent(orderId, order, items, total, time, customer);
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = printContent;
+                    tempDiv.style.position = 'absolute';
+                    tempDiv.style.left = '-9999px';
+                    tempDiv.style.top = '-9999px';
+                    document.body.appendChild(tempDiv);
+                    
+                    const printWindow2 = window.open('', '_blank');
+                    if (printWindow2) {
+                        printWindow2.document.write(printContent);
+                        printWindow2.document.close();
+                        printWindow2.focus();
+                        setTimeout(() => {
+                            printWindow2.print();
+                            setTimeout(() => printWindow2.close(), 1000);
+                        }, 500);
+                    } else {
+                        // Last resort: use browser's print dialog
+                        window.print();
+                    }
+                    document.body.removeChild(tempDiv);
+                    return;
+                }
+                
+                const printContent = createPrintContent(orderId, order, items, total, time, customer);
+                printWindow.document.write(printContent);
+                
+                printWindow.document.close();
+                printWindow.focus();
+                setTimeout(() => {
+                    printWindow.print();
+                    setTimeout(() => printWindow.close(), 1000);
+                }, 500);
+            } catch (error) {
+                console.error('Print error:', error);
+                alert('Error generating print preview: ' + error.message);
+            }
+        }
+
+        function exportOrderAsXML(orderId) {
+            try {
+                const order = (window.allOrders || allOrders).find(o => o.id === orderId);
+                if (!order) {
+                    alert('Order not found');
+                    return;
+                }
+                
+                const items = (order.items || []).map(i => 
+                    `    <item>
+        <name><![CDATA[${i.name || ''}]]></name>
+        <size><![CDATA[${i.size || 'One Size'}]]></size>
+        <quantity>${i.quantity || 0}</quantity>
+        <price>${Number(i.price || 0).toFixed(2)}</price>
+    </item>`
+                ).join('\n');
+                
+                const customer = order.customer || {};
+                const time = order.createdAt?.toDate ? order.createdAt.toDate().toISOString() : new Date().toISOString();
+                
+                const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+<order>
+    <orderId><![CDATA[${orderId}]]></orderId>
+    <date>${time}</date>
+    <status><![CDATA[${order.status || 'Pending'}]]></status>
+    <total>${Number(order.total || 0).toFixed(2)}</total>
+    <customer>
+        <name><![CDATA[${customer.name || ''}]]></name>
+        <phone><![CDATA[${customer.phone || ''}]]></phone>
+        <address><![CDATA[${customer.address || ''}]]></address>
+    </customer>
+    <items>
+${items}
+    </items>
+    <generated>${new Date().toISOString()}</generated>
+</order>`;
+                
+                const blob = new Blob([xmlContent], { type: 'application/xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `order-${orderId}-${new Date().toISOString().split('T')[0]}.xml`;
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                alert('XML file downloaded successfully!');
+            } catch (error) {
+                console.error('Export error:', error);
+                alert('Error exporting XML: ' + error.message);
+            }
+        }
+
+        // Debug function to test if functions are accessible
+        function testPrintExport() {
+            console.log('Print function available:', typeof printOrderAsPDF);
+            console.log('Export function available:', typeof exportOrderAsXML);
+            console.log('All orders count:', (window.allOrders || allOrders).length);
+            console.log('Sample order:', (window.allOrders || allOrders)[0]);
+        }
+
+        // Test function to create a sample order for testing
+        function createTestOrder() {
+            const testOrder = {
+                id: 'test-' + Date.now(),
+                items: [
+                    { name: 'Test Product', size: 'Medium', quantity: 2, price: 299.99 }
+                ],
+                total: 599.98,
+                status: 'Pending',
+                customer: {
+                    name: 'Test Customer',
+                    phone: '123-456-7890',
+                    address: '123 Test Street',
+                },
+                createdAt: { toDate: () => new Date() }
+            };
+            (window.allOrders || allOrders).unshift(testOrder);
+            console.log('Test order created:', testOrder);
+            return testOrder.id;
+        }
+
+        // Make functions globally accessible
+        window.printOrderAsPDF = printOrderAsPDF;
+        window.exportOrderAsXML = exportOrderAsXML;
+        window.testPrintExport = testPrintExport;
+        window.createTestOrder = createTestOrder;
     </script>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
@@ -275,7 +482,6 @@
         const ordersEl = document.getElementById('orders');
         const ordersRef = collection(db, 'orders');
         const ordersQuery = query(ordersRef, orderBy('createdAt', 'desc'));
-        let allOrders = [];
         let curPage = 1;
         function applyFilters() {
             const q = (document.getElementById('searchInput').value || '').toLowerCase();
@@ -309,7 +515,7 @@
             ordersEl.innerHTML = '';
             list.forEach(d => {
                 const data = d;
-                const items = (data.items || []).map(i => `${i.name} × ${i.quantity} — ₱${Number(i.price).toFixed(2)}`).join('<br>');
+                const items = (data.items || []).map(i => `${i.name} (${i.size || 'One Size'}) × ${i.quantity} — ₱${Number(i.price).toFixed(2)}`).join('<br>');
                 const total = Number(data.total || 0).toFixed(2);
                 const time = data.createdAt?.toDate ? data.createdAt.toDate().toLocaleString() : '';
                 const badge = statusBadge(data.status);
@@ -340,9 +546,15 @@
                         ${customer.facebook ? `<div><span class=\"text-slate-500\">Facebook:</span> ${customer.facebook}</div>` : ''}
                     </div>` : ''}
                     <div class="mt-4 text-sm">${items || 'No items'}</div>
-                    <div class="mt-4 flex gap-2">
+                    <div class="mt-4 flex flex-wrap gap-2">
                         <button class="updateOrder rounded-full px-3 py-1 ring-1 ring-slate-200 hover:ring-plum-500">Mark Processed</button>
                         <button class="deleteOrder text-red-600 rounded-full px-3 py-1 ring-1 ring-red-200 hover:bg-red-50">Delete</button>
+                        <button onclick="printOrderAsPDF('${d.id}')" class="bg-rose-600 text-white px-3 py-1 rounded-full hover:bg-rose-700 transition text-xs">
+                            🖨️ Print PDF
+                        </button>
+                        <button onclick="exportOrderAsXML('${d.id}')" class="bg-slate-600 text-white px-3 py-1 rounded-full hover:bg-slate-700 transition text-xs">
+                            💾 Export XML
+                        </button>
                     </div>`;
                 card.querySelector('.deleteOrder').addEventListener('click', async () => {
                     const ok = confirm('Delete this order permanently?');
@@ -357,8 +569,9 @@
         }
 
         onSnapshot(ordersQuery, (snap) => {
-            allOrders = [];
-            snap.forEach(docSnap => allOrders.push({ id: docSnap.id, ...docSnap.data() }));
+            window.allOrders = [];
+            snap.forEach(docSnap => window.allOrders.push({ id: docSnap.id, ...docSnap.data() }));
+            allOrders = window.allOrders; // Update local reference
             curPage = 1;
             applyFilters();
         });
@@ -490,6 +703,7 @@
             try { localStorage.removeItem('jcws_admin'); localStorage.removeItem('adminAuth'); } catch {}
             window.location.href = './start.html';
         });
+
     </script>
 </body>
 </html>

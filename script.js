@@ -132,7 +132,7 @@ function renderProducts() {
     sweater: "Sweater"
   }[p.category.toLowerCase()] || "others"}
 </div>
-        <div class="text-sm text-slate-600 mt-1 flex items-center gap-2">
+        <div class="text-sm text-slate-600 mt-1">
           <span>${Array.isArray(p.size) && p.size.length > 1 ? 'Sizes: ' + p.size.join(' • ') : 'Size: ' + ((p.size && p.size[0]) || 'One Size')}</span>
         </div>
 
