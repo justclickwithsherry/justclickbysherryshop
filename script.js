@@ -92,7 +92,7 @@ function renderProducts() {
     toRender = toRender.filter(p => (p.name + ' ' + (p.category||'')).toLowerCase().includes(query));
   }
   if (cat && cat !== 'all') {
-    toRender = toRender.filter(p => (p.category||'').toLowerCase() === cat.toLowerCase());
+    toRender = toRender.filter(p => (p.category||'').toLowerCase() === cat);
   }
   // If grid has data-limit=responsive, cap to two rows based on current columns
   const limitMode = grid.getAttribute('data-limit');
@@ -120,7 +120,7 @@ function renderProducts() {
         <div class="text-sm text-text-muted mb-4">
   ${{
     clothes: "Clothes",
-    liptint: "Lip tint",
+    liptint: "Lip-tint",
     shoes: "Shoes",
     dress: "Dress",
     full: "Full Set",  
@@ -131,6 +131,7 @@ function renderProducts() {
     package: "Package",
     sweater: "Sweater"
   }[p.category.toLowerCase()] || "others"}
+
 
 </div>
         <div class="text-sm text-slate-600 mt-1">
