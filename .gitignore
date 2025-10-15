@@ -13,7 +13,6 @@ yarn-error.log*
 
 # Firebase
 firebase-debug.log
-firebase-config.js
 .firebase/
 .firebaserc
 
