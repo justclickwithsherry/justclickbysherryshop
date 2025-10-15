@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Just Click by Sherry</title>
-    <!-- TailwindCSS CDN -->
+    <title>Just Click • Welcome</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Elegant fonts: Playfair Display + Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -49,9 +47,7 @@
                         'fade-in': 'fadeIn 0.6s ease-out',
                         'slide-up': 'slideUp 0.6s ease-out',
                         'scale-in': 'scaleIn 0.3s ease-out',
-                        'bounce': 'bounce 1s infinite',
-                        'ken-burns': 'kenBurns 20s ease-in-out infinite',
-                        'float': 'float 6s ease-in-out infinite'
+                        'bounce': 'bounce 1s infinite'
                     },
                     keyframes: {
                         fadeIn: {
@@ -65,544 +61,206 @@
                         scaleIn: {
                             '0%': { opacity: '0', transform: 'scale(0.95)' },
                             '100%': { opacity: '1', transform: 'scale(1)' }
-                        },
-                        kenBurns: {
-                            '0%, 100%': { transform: 'scale(1) translateX(0) translateY(0)' },
-                            '25%': { transform: 'scale(1.05) translateX(-2%) translateY(-1%)' },
-                            '50%': { transform: 'scale(1.1) translateX(2%) translateY(1%)' },
-                            '75%': { transform: 'scale(1.05) translateX(-1%) translateY(2%)' }
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-20px)' }
                         }
                     }
                 }
             }
         }
     </script>
-    <link rel="icon" href="logo.png">
-    <meta name="description" content="Your lifestyle finds, just a click away.">
-    <!-- Inline Firebase config (client-side keys are safe to expose) -->
-    <script>
-        window.FIREBASE_CONFIG = {
-          apiKey: "AIzaSyBs74HoIeuFoXE0G_mdD2eNBDsucuAEQCA",
-          authDomain: "justclickshop-8081b.firebaseapp.com",
-          projectId: "justclickshop-8081b",
-          storageBucket: "justclickshop-8081b.firebasestorage.app",
-          messagingSenderId: "623998776057",
-          appId: "1:623998776057:web:f488332b7b49bbc3f5a828",
-          measurementId: "G-DTDJ1CGMWB"
-        };
-    </script>
 </head>
-<body class="bg-white text-text-primary font-body">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    <!-- Header / Navbar -->
-    <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-mint-200 to-mint-400 flex items-center justify-center">
-                        <span class="text-plum-600 text-xl">⌂</span>
-                    </div>
-                    <div class="leading-tight">
-                        <h1 class="text-xl font-semibold tracking-tight">Just Click</h1>
-                        <p class="text-xs text-slate-500 -mt-1">by Sherry</p>
-                    </div>
-                </div>
-                <nav class="hidden md:flex items-center gap-6 text-sm">
-                    <a href="#home" class="hover:text-plum-600">Home</a>
-                    <a href="#products" class="hover:text-plum-600">Products</a>
-                    <a href="#howto" class="hover:text-plum-600">Checkout</a>
-                    <a href="#about" class="hover:text-plum-600">About</a>
-                    <a href="#contact" class="hover:text-plum-600">Contact</a>
-                </nav>
-                <div id="adminControls" class="hidden items-center gap-2 mr-3">
-                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 ring-1 ring-amber-200">Admin Mode</span>
-                    <a href="./admin.html" class="text-sm text-plum-600 hover:underline">Dashboard</a>
-                </div>
-                <button id="openCart" class="relative inline-flex items-center gap-2 rounded-full px-4 py-2 bg-plum-500 text-white hover:bg-plum-600 transition">
-                    <span>Cart</span>
-                    <span id="cartCount" class="text-xs bg-white text-plum-600 rounded-full px-2 py-0.5">0</span>
-                </button>
+<body class="bg-gradient-to-br from-mint-50 to-mint-100 text-text-primary font-body min-h-screen">
+    <div class="relative overflow-hidden min-h-screen flex items-center">
+        <div class="absolute inset-0 bg-gradient-to-br from-mint-50 to-mint-100"></div>
+        <div class="absolute -right-24 -bottom-24 w-72 h-72 bg-plum-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute -left-24 -top-24 w-96 h-96 bg-lavender-100/30 rounded-full blur-3xl"></div>
+        <div class="relative max-w-6xl mx-auto px-6 py-20 md:py-28 text-center">
+            <div class="animate-fade-in">
+                <h1 class="text-5xl md:text-7xl font-display font-bold tracking-tight text-plum-500 leading-tight">Just Click</h1>
+                <p class="mt-3 text-xl md:text-2xl font-display text-plum-500/80 italic">by Sherry</p>
+                <p class="mt-6 text-lg text-text-muted max-w-2xl mx-auto">Your lifestyle finds, just a click away.</p>
             </div>
-        </div>
-    </header>
-
-    <!-- Hero Slideshow -->
-    <section id="home" class="relative overflow-hidden min-h-screen">
-        <!-- Slideshow Container -->
-        <div id="heroSlideshow" class="relative w-full h-screen">
-            <!-- Slide 1: Elegant Dress -->
-            <div class="slideshow-slide absolute inset-0 opacity-100 transition-all duration-1000 ease-in-out">
-                <div class="absolute inset-0 bg-gradient-to-br from-mint-50/80 to-lavender-100/60"></div>
-                <img src="./images/New_1.png" 
-                     alt="Elegant Dress Collection" 
-                     class="w-full h-full object-cover animate-ken-burns" />
-                <div class="absolute inset-0 bg-black/10"></div>
-            </div>
-            
-            <!-- Slide 2: Soft Pastels -->
-            <div class="slideshow-slide absolute inset-0 opacity-0 transition-all duration-1000 ease-in-out">
-                <div class="absolute inset-0 bg-gradient-to-br from-mint-50/80 to-lavender-100/60"></div>
-                <img src="https://placehold.co/1920x1080/A8E6CF/5A2753?text=Soft+Pastel+Fashion" 
-                     alt="Soft Pastel Fashion" 
-                     class="w-full h-full object-cover animate-ken-burns" />
-                <div class="absolute inset-0 bg-black/10"></div>
-            </div>
-            
-            <!-- Slide 3: Lip Tints -->
-            <div class="slideshow-slide absolute inset-0 opacity-0 transition-all duration-1000 ease-in-out">
-                <div class="absolute inset-0 bg-gradient-to-br from-mint-50/80 to-lavender-100/60"></div>
-                <img src="https://placehold.co/1920x1080/E8D5E9/5A2753?text=Lip+Tint+Collection" 
-                     alt="Lip Tint Collection" 
-                     class="w-full h-full object-cover animate-ken-burns" />
-                <div class="absolute inset-0 bg-black/10"></div>
-            </div>
-            
-            <!-- Slide 4: Modern Silhouettes -->
-            <div class="slideshow-slide absolute inset-0 opacity-0 transition-all duration-1000 ease-in-out">
-                <div class="absolute inset-0 bg-gradient-to-br from-mint-50/80 to-lavender-100/60"></div>
-                <img src="https://placehold.co/1920x1080/F5F2ED/5A2753?text=Modern+Silhouettes" 
-                     alt="Modern Silhouettes" 
-                     class="w-full h-full object-cover animate-ken-burns" />
-                <div class="absolute inset-0 bg-black/10"></div>
-            </div>
-        </div>
-        
-        
-        
-        <!-- Shop Now Button (Bottom Left) -->
-        <div class="absolute bottom-8 left-8 z-20 animate-float">
-            <a href="#products" class="group inline-flex items-center justify-center gap-3 rounded-2xl px-8 py-4 bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-2xl font-medium backdrop-blur-sm bg-opacity-95">
-                <span class="text-lg">Shop Now</span>
-                <svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                </svg>
-            </a>
-        </div>
-        
-        <!-- Dot Navigation -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">
-            <button class="slideshow-dot w-3 h-3 rounded-full bg-white/80 hover:bg-white transition-all duration-300 hover:scale-125 active" data-slide="0"></button>
-            <button class="slideshow-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 transition-all duration-300 hover:scale-125" data-slide="1"></button>
-            <button class="slideshow-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 transition-all duration-300 hover:scale-125" data-slide="2"></button>
-            <button class="slideshow-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 transition-all duration-300 hover:scale-125" data-slide="3"></button>
-        </div>
-        
-        <!-- Decorative Elements -->
-        <div class="absolute -left-24 -bottom-24 w-72 h-72 bg-plum-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute -right-24 -top-24 w-96 h-96 bg-lavender-100/30 rounded-full blur-3xl"></div>
-    </section>
-
-    <!-- How to checkout -->
-    <section id="howto" class="py-20 bg-gradient-to-br from-mint-50/50 to-lavender-100/30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 animate-fade-in">
-                <h3 class="text-4xl font-display font-bold text-plum-500 mb-4">How to Checkout</h3>
-                <p class="text-lg text-text-muted max-w-2xl mx-auto">Simple steps to get your favorite items delivered to your doorstep</p>
-            </div>
-            
-            <!-- Progress Bar -->
-            <div class="flex items-center justify-center mb-12">
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold">1</div>
-                        <div class="w-16 h-1 bg-plum-500"></div>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold">2</div>
-                        <div class="w-16 h-1 bg-plum-500"></div>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold">3</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="group p-8 rounded-3xl bg-white/80 backdrop-blur-sm ring-1 ring-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 animate-slide-up">
+            <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto animate-slide-up">
+                <a href="./shop.html" class="group block rounded-3xl bg-white/60 backdrop-blur-sm ring-2 ring-white/40 hover:ring-plum-500/30 shadow-xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl text-left">
                     <div class="w-16 h-16 bg-gradient-to-br from-mint-100 to-mint-200 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                         <svg class="w-8 h-8 text-plum-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
                     </div>
-                    <h4 class="text-xl font-display font-semibold text-plum-500 mb-4">Add to Cart</h4>
-                    <p class="text-text-muted leading-relaxed">Browse our elegant collection and press Add to Cart. Adjust quantities in your cart as needed.</p>
-                </div>
-                <div class="group p-8 rounded-3xl bg-white/80 backdrop-blur-sm ring-1 ring-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="text-sm text-text-muted font-medium">I am a</div>
+                    <div class="mt-2 text-3xl font-display font-bold text-plum-500">Customer</div>
+                    <p class="mt-4 text-text-muted leading-relaxed">Browse our elegant collection and place orders for your favorite pieces.</p>
+                </a>
+                <button id="ownerBtn" class="group block rounded-3xl bg-white/60 backdrop-blur-sm ring-2 ring-white/40 hover:ring-plum-500/30 shadow-xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl text-left">
                     <div class="w-16 h-16 bg-gradient-to-br from-lavender-100 to-lavender-200 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                         <svg class="w-8 h-8 text-plum-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                         </svg>
                     </div>
-                    <h4 class="text-xl font-display font-semibold text-plum-500 mb-4">Review & Checkout</h4>
-                    <p class="text-text-muted leading-relaxed">Open your cart, confirm items, then click Checkout to place your order securely.</p>
-                </div>
-                <div class="group p-8 rounded-3xl bg-white/80 backdrop-blur-sm ring-1 ring-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 animate-slide-up" style="animation-delay: 0.4s">
-                    <div class="w-16 h-16 bg-gradient-to-br from-plum-500/10 to-plum-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <svg class="w-8 h-8 text-plum-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                    </div>
-                    <h4 class="text-xl font-display font-semibold text-plum-500 mb-4">Confirmation</h4>
-                    <p class="text-text-muted leading-relaxed">We store your order securely and will contact you via email or chat for delivery details.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!--  s -->
-    <section id="products" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 animate-fade-in">
-                <h3 class="text-4xl font-display font-bold text-plum-500 mb-4">Featured Products</h3>
-                <p class="text-lg text-text-muted max-w-2xl mx-auto">Elegant pieces in soft pastels and modern silhouettes</p>
-                </div>
-            
-            <div class="flex flex-col lg:flex-row gap-6 mb-12">
-                <div class="relative flex-1 max-w-md mx-auto lg:mx-0">
-                    <!-- Search Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                         class="absolute left-4 h-5 w-5 text-text-muted top-1/2 transform -translate-y-1/2" 
-                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                            d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
-                    </svg>
-                    <!-- Search Input -->
-                    <input 
-                      id="prodSearch"
-                      type="text"
-                      placeholder="Search products..."
-                      class="w-full pl-12 pr-4 py-3 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 focus:border-plum-500 text-sm bg-white/80 backdrop-blur-sm transition-all duration-300"
-                    />
-                  </div>
-                    
-                <div class="flex flex-col sm:flex-row gap-3 items-center">
-                    <select id="prodCategory" class="px-6 py-3 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 text-sm bg-white/80 backdrop-blur-sm transition-all duration-300">
-                        <option value="all">All categories</option>
-                        <option value="clothes">Clothes</option>
-                        <option value="dress">Dress</option>
-                        <option value="full">Full Set</option>
-                        <option value="top">Top</option>
-                        <option value="pants">Pants</option>
-                        <option value="liptint">Lip tints</option>
-                        <option value="perfume">Perfume</option>
-                        <option value="accessories">Accessory</option>
-                        <option value="package">Packages</option>
-                        <option value="sweater">Sweater</option>
-                    </select>
-                    <a href="./products.html" class="inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-3 ring-2 ring-plum-500/20 text-plum-500 hover:ring-plum-500 hover:bg-plum-500 hover:text-white text-sm font-medium transition-all duration-300 hover:scale-105">
-                        <span>View all</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
-            <div id="productGrid" data-limit="responsive" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-        </div>
-    </section>
-
-    
-
-    <!-- About -->
-    <section id="about" class="py-20 bg-gradient-to-br from-mint-50/30 to-lavender-100/20">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-fade-in">
-            <h3 class="text-4xl font-display font-bold text-plum-500 mb-8">Our Story</h3>
-            <div class="bg-white/60 backdrop-blur-sm rounded-3xl p-8 lg:p-12 shadow-xl ring-1 ring-white/40">
-                <p class="text-lg text-text-muted leading-relaxed">At Just Click, we believe that elegance should never feel complicated—it should flow effortlessly into your everyday life. Our collections are carefully curated to combine timeless silhouettes with modern simplicity, creating pieces that are as versatile as they are refined. From soft pastels to confident hues, each product is thoughtfully designed to inspire confidence, comfort, and style. We are more than just a shop, we are a celebration of everyday beauty, helping you express yourself with grace in every moment.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="py-20 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 animate-fade-in">
-                <h3 class="text-4xl font-display font-bold text-plum-500 mb-4">Contact Us</h3>
-                <p class="text-lg text-text-muted">We'd love to hear from you. Send us a message!</p>
-            </div>
-            <div class="bg-gradient-to-br from-mint-50/50 to-lavender-100/30 rounded-3xl p-8 lg:p-12 shadow-xl ring-1 ring-white/40 animate-slide-up">
-                <form id="contactForm" class="grid grid-cols-1 gap-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <input class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Your Name" required>
-                        <input type="email" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Your Email" required>
-                    </div>
-                    <textarea rows="5" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Your Message" required></textarea>
-                    <button class="mt-4 inline-flex justify-center items-center gap-2 rounded-2xl bg-plum-500 text-white px-8 py-4 hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium" type="submit">
-                        <span>Send Message</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                        </svg>
-                    </button>
-            </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Cart Drawer -->
-    <div id="cartDrawer" class="fixed inset-y-0 right-0 w-full sm:w-[420px] bg-white/95 backdrop-blur-md shadow-2xl translate-x-full transition-transform duration-300 z-50 flex flex-col">
-        <div class="p-6 border-b border-mint-100 flex items-center justify-between bg-gradient-to-r from-mint-50/50 to-lavender-100/30">
-            <h4 class="text-xl font-display font-semibold text-plum-500">Your Cart</h4>
-            <button id="closeCart" class="text-text-muted hover:text-plum-600 transition-colors duration-200">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-        </div>
-        <div id="cartItems" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
-        <div class="p-6 border-t border-mint-100 space-y-4 bg-gradient-to-r from-mint-50/30 to-lavender-100/20">
-            <div class="flex items-center justify-between text-lg">
-                <span class="text-text-muted font-medium">Subtotal</span>
-                <span id="cartSubtotal" class="font-display font-bold text-plum-500 text-xl">₱0.00</span>
-            </div>
-            <button id="checkoutBtn" class="w-full rounded-2xl bg-plum-500 text-white px-6 py-4 hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">
-                <span class="flex items-center justify-center gap-2">
-                    <span>Checkout</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                    </svg>
-                </span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Checkout Details Modal -->
-    <div id="checkoutModal" class="fixed inset-0 hidden items-center justify-center bg-black/40 backdrop-blur-sm z-50">
-        <div class="bg-white/95 backdrop-blur-md rounded-3xl p-8 w-[92]%] max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl ring-1 ring-white/40">
-            <!-- Progress Bar -->
-            <div class="mb-8">
-                <div class="flex items-center justify-center space-x-4">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold text-sm">1</div>
-                        <div class="w-12 h-1 bg-plum-500"></div>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold text-sm">2</div>
-                        <div class="w-12 h-1 bg-plum-500"></div>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 bg-plum-500 text-white rounded-full flex items-center justify-center font-semibold text-sm">3</div>
-                    </div>
-                </div>
-                <div class="flex justify-between text-xs text-text-muted mt-2">
-                    <span>Cart</span>
-                    <span>Details</span>
-                    <span>Payment</span>
-                </div>
-            </div>
-            
-            <h3 class="text-2xl font-display font-bold text-plum-500 mb-2">Delivery Details</h3>
-            <p class="text-text-muted mb-6">Please provide your information to complete the order.</p>
-            
-            <div class="grid gap-4">
-                <input id="chkName" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Full name" />
-                <input id="chkPhone" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Phone number" />
-                <textarea id="chkAddress" rows="3" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Delivery address"></textarea>
-                <input id="chkFacebook" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Facebook name (optional)" />
-                
-                <div class="flex items-center gap-3 p-4 rounded-2xl bg-mint-50/50">
-                    <input id="chkNotRobot" type="checkbox" class="h-5 w-5 rounded border-mint-200 text-plum-500 focus:ring-plum-500" />
-                    <label for="chkNotRobot" class="text-sm text-text-muted">I'm not a robot</label>
-                </div>
-                
-                <!-- Honeypot field: hidden from humans; bots often fill it. Must remain empty. -->
-                <input id="chkHoney" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-                <!-- Simple CAPTCHA: customer copies the code shown -->
-                <div class="grid grid-cols-[1fr_auto] items-center gap-3">
-                    <canvas id="chkCaptchaCanvas" width="200" height="56" class="rounded-2xl ring-2 ring-mint-100 bg-mint-50/50"></canvas>
-                    <button id="chkCaptchaRefresh" type="button" class="px-4 py-3 rounded-2xl ring-2 ring-mint-100 text-sm hover:ring-plum-500 transition-all duration-300">Refresh</button>
-                </div>
-                <input id="chkCaptchaInput" class="px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Enter the code above" />
-                <p id="chkError" class="hidden text-sm text-red-500 bg-red-50 p-3 rounded-2xl">Please fill in name, phone, address, and confirm you're not a robot.</p>
-            </div>
-            
-            <div class="mt-8 flex items-center justify-end gap-3">
-                <button id="chkCancel" class="px-6 py-3 rounded-2xl ring-2 ring-mint-100 text-text-muted hover:ring-plum-500 hover:text-plum-500 transition-all duration-300">Cancel</button>
-                <button id="chkSubmit" class="px-8 py-3 rounded-2xl bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">
-                    <span class="flex items-center gap-2">
-                        <span>Place Order</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                    </span>
+                    <div class="text-sm text-text-muted font-medium">I am the</div>
+                    <div class="mt-2 text-3xl font-display font-bold text-plum-500">Owner</div>
+                    <p class="mt-4 text-text-muted leading-relaxed">Log in to manage orders, products, and view analytics.</p>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Floating Start button (outside header for a cleaner look) -->
-    <a id="backToStart" href="./start.html" aria-label="Back to start" title="Back to start" class="fixed left-2 top-2 z-40 inline-flex items-center justify-center rounded-2xl w-12 h-12 bg-white/90 backdrop-blur-sm ring-2 ring-mint-100 shadow-lg hover:ring-plum-500 hover:scale-110 transition-all duration-300">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-plum-500">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5M3 12h18"/>
-        </svg>
-    </a>
+    <!-- Owner Login Modal -->
+    <div id="loginModal" class="fixed inset-0 hidden items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl p-8 w-[90%] max-w-md shadow-2xl ring-1 ring-white/40">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-plum-500/10 to-plum-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-plum-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-display font-bold text-plum-500">Owner Login</h3>
+                <p class="mt-2 text-text-muted">Enter the owner password to continue.</p>
+            </div>
+            <input id="pwd" type="password" class="w-full px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Enter password" />
+            <div class="mt-6 flex gap-3 justify-end">
+                <button id="cancelLogin" class="px-6 py-3 rounded-2xl ring-2 ring-mint-100 text-text-muted hover:ring-plum-500 hover:text-plum-500 transition-all duration-300">Cancel</button>
+                <button id="confirmLogin" class="px-8 py-3 rounded-2xl bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">Login</button>
+            </div>
+            <p id="loginError" class="mt-4 text-sm text-red-500 bg-red-50 p-3 rounded-2xl hidden">Incorrect password.</p>
+            <button id="openChange" class="mt-4 text-sm text-text-muted hover:text-plum-500 underline transition-colors duration-200">Set/Change password</button>
+        </div>
+    </div>
 
-    <!-- Scripts -->
+    <!-- Change Password Modal -->
+    <div id="changeModal" class="fixed inset-0 hidden items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl p-8 w-[90%] max-w-md shadow-2xl ring-1 ring-white/40">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-mint-100 to-mint-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-plum-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-display font-bold text-plum-500">Set / Change Password</h3>
+                <p class="mt-2 text-text-muted">Enter current password, then your new password.</p>
+            </div>
+            <div class="space-y-4">
+                <input id="currentPwd" type="password" class="w-full px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Current password (leave empty if none)" />
+                <input id="newPwd" type="password" class="w-full px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="New password" />
+                <input id="confirmPwd" type="password" class="w-full px-6 py-4 rounded-2xl ring-2 ring-mint-100 focus:outline-none focus:ring-plum-500 bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Confirm new password" />
+            </div>
+            <div class="mt-6 flex gap-3 justify-end">
+                <button id="cancelChange" class="px-6 py-3 rounded-2xl ring-2 ring-mint-100 text-text-muted hover:ring-plum-500 hover:text-plum-500 transition-all duration-300">Cancel</button>
+                <button id="saveChange" class="px-8 py-3 rounded-2xl bg-plum-500 text-white hover:bg-plum-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-medium">Save</button>
+            </div>
+            <p id="changeError" class="mt-4 text-sm text-red-500 bg-red-50 p-3 rounded-2xl hidden"></p>
+            <p id="changeOk" class="mt-4 text-sm text-green-600 bg-green-50 p-3 rounded-2xl hidden">Password updated successfully!</p>
+        </div>
+    </div>
+
     <script>
-        // Show admin indicator on customer UI if admin mode is active
+        // Owner gate now backed by Firestore config doc: config/owner.passwordHash
+        // Falls back to no password if doc doesn't exist yet.
+        let fbApp = null, fstore = null, fbMods = null;
+
+        async function ensureFirebase() {
+            if (fbApp && fstore && fbMods) return;
+            const [{ initializeApp }, firestore] = await Promise.all([
+                import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'),
+                import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
+            ]);
+            fbMods = firestore;
+            fbApp = initializeApp(window.FIREBASE_CONFIG);
+            fstore = firestore.getFirestore(fbApp);
+        }
+
+        async function sha256(text){
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+            return Array.from(new Uint8Array(buf)).map(x=>x.toString(16).padStart(2,'0')).join('');
+        }
+
+        async function getStoredHash(){
+            await ensureFirebase();
+            const { doc, getDoc } = fbMods;
+            const d = await getDoc(doc(fstore, 'config', 'owner'));
+            return d.exists() ? (d.data().passwordHash || '') : '';
+        }
+
+        async function setStoredHash(newHash){
+            await ensureFirebase();
+            const { doc, setDoc } = fbMods;
+            await setDoc(doc(fstore, 'config', 'owner'), { passwordHash: newHash }, { merge: true });
+        }
+
+        const modal = document.getElementById('loginModal');
+        // If user chooses Customer, ensure admin mode is cleared for this origin
         (function(){
             try {
-                var isAdmin = localStorage.getItem('jcws_admin') === '1';
-                var ctrls = document.getElementById('adminControls');
-                if (isAdmin && ctrls) {
-                    ctrls.classList.remove('hidden');
-                    ctrls.classList.add('flex');
-                }
-                var exitBtn = document.getElementById('exitAdmin');
-                if (exitBtn) {
-                    exitBtn.addEventListener('click', function(){
+                var customerLink = document.querySelector('a[href="./shop.html"]');
+                if (customerLink) {
+                    customerLink.addEventListener('click', function(){
                         try { localStorage.removeItem('jcws_admin'); } catch {}
-                        var ctrls2 = document.getElementById('adminControls');
-                        if (ctrls2) { ctrls2.classList.add('hidden'); ctrls2.classList.remove('flex'); }
                     });
                 }
             } catch (e) {}
         })();
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <script>
-      // Initialize EmailJS with your Public Key
-      (function(){ try { emailjs.init('KNpJqqTeyrSQg0fGJ'); } catch(e) { console.error(e); } })();
-
-      (function initContactForm(){
-        var form = document.getElementById('contactForm');
-        if (!form) return;
-
-        form.addEventListener('submit', function(e){
-          e.preventDefault();
-
-          // Get fields (order as in your form)
-          var inputs = form.querySelectorAll('input, textarea');
-          var name = (inputs[0]?.value || '').trim();
-          var email = (inputs[1]?.value || '').trim();
-          var message = (inputs[2]?.value || '').trim();
-
-          if (!name || !email || !message) {
-            alert('Please fill in all fields.');
-            return;
-          }
-
-          // Send via EmailJS
-          emailjs.send('service_isvxe9s', 'template_eufvphw', {
-            from_name: name,
-            from_email: email,
-            message: message
-          })
-          .then(function(){
-            inputs.forEach(function(i){ i.value = ''; });
-            alert('Thanks! Your message has been sent.');
-          })
-          .catch(function(err){
-            console.error(err);
-            alert('Failed to send message. Please try again later.');
-          });
+        document.getElementById('ownerBtn').addEventListener('click', () => {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('pwd').focus();
         });
-        })();
-    </script>
-    <script type="module" src="./script.js"></script>
-    
-    <!-- Slideshow JavaScript -->
-    <script>
-        (function initSlideshow() {
-            let currentSlide = 0;
-            const slides = document.querySelectorAll('.slideshow-slide');
-            const dots = document.querySelectorAll('.slideshow-dot');
-            const totalSlides = slides.length;
-            
-            // Function to show a specific slide
-            function showSlide(index) {
-                // Hide all slides
-                slides.forEach((slide, i) => {
-                    slide.style.opacity = i === index ? '1' : '0';
-                    slide.style.transform = i === index ? 'scale(1)' : 'scale(1.05)';
-                });
-                
-                // Update dots
-                dots.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === index);
-                    dot.classList.toggle('bg-white/80', i === index);
-                    dot.classList.toggle('bg-white/50', i !== index);
-                });
-                
-                currentSlide = index;
+        document.getElementById('cancelLogin').addEventListener('click', () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+        document.getElementById('confirmLogin').addEventListener('click', async () => {
+            const entered = document.getElementById('pwd').value;
+            const stored = await getStoredHash();
+            if (!stored) {
+                // no password set yet → ask to set
+                openChangeModal();
+                return;
             }
-            
-            // Function to go to next slide
-            function nextSlide() {
-                const next = (currentSlide + 1) % totalSlides;
-                showSlide(next);
+            const hashHex = await sha256(entered);
+            if (hashHex === stored) { 
+                try { 
+                    localStorage.setItem('jcws_admin', '1'); 
+                    localStorage.setItem('adminAuth','true'); 
+                    sessionStorage.setItem('adminAuth', 'true'); // Use sessionStorage for better security
+                } catch {} 
+                location.href = './admin.html'; 
             }
-            
-            // Function to go to previous slide
-            function prevSlide() {
-                const prev = (currentSlide - 1 + totalSlides) % totalSlides;
-                showSlide(prev);
+            else document.getElementById('loginError').classList.remove('hidden');
+        });
+        document.getElementById('pwd').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ document.getElementById('confirmLogin').click(); } });
+
+        // Change password flow
+        const changeModal = document.getElementById('changeModal');
+        function openChangeModal(){
+            changeModal.classList.remove('hidden');
+            changeModal.classList.add('flex');
+            document.getElementById('newPwd').focus();
+        }
+        document.getElementById('openChange').addEventListener('click', openChangeModal);
+        document.getElementById('cancelChange').addEventListener('click', () => {
+            changeModal.classList.add('hidden');
+            changeModal.classList.remove('flex');
+        });
+        document.getElementById('saveChange').addEventListener('click', async () => {
+            const cur = document.getElementById('currentPwd').value;
+            const np = document.getElementById('newPwd').value;
+            const cp = document.getElementById('confirmPwd').value;
+            const err = document.getElementById('changeError');
+            const ok = document.getElementById('changeOk');
+            err.classList.add('hidden'); ok.classList.add('hidden');
+
+            if (!np || np.length < 6) { err.textContent = 'New password must be at least 6 characters.'; err.classList.remove('hidden'); return; }
+            if (np !== cp) { err.textContent = 'Passwords do not match.'; err.classList.remove('hidden'); return; }
+
+            const stored = await getStoredHash();
+            if (stored) {
+                const curHash = await sha256(cur || '');
+                if (curHash !== stored) { err.textContent = 'Current password is incorrect.'; err.classList.remove('hidden'); return; }
             }
-            
-            // Add click event listeners to dots
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => showSlide(index));
-            });
-            
-            // Auto-advance slideshow every 5 seconds
-            let autoSlideInterval = setInterval(nextSlide, 5000);
-            
-            // Pause auto-advance on hover
-            const slideshow = document.getElementById('heroSlideshow');
-            slideshow.addEventListener('mouseenter', () => {
-                clearInterval(autoSlideInterval);
-            });
-            
-            slideshow.addEventListener('mouseleave', () => {
-                autoSlideInterval = setInterval(nextSlide, 5000);
-            });
-            
-            // Touch/swipe support for mobile
-            let startX = 0;
-            let startY = 0;
-            let endX = 0;
-            let endY = 0;
-            
-            slideshow.addEventListener('touchstart', (e) => {
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-            });
-            
-            slideshow.addEventListener('touchend', (e) => {
-                endX = e.changedTouches[0].clientX;
-                endY = e.changedTouches[0].clientY;
-                
-                const diffX = startX - endX;
-                const diffY = startY - endY;
-                
-                // Only trigger if horizontal swipe is more significant than vertical
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                    if (diffX > 0) {
-                        nextSlide(); // Swipe left - next slide
-                    } else {
-                        prevSlide(); // Swipe right - previous slide
-                    }
-                }
-            });
-            
-            // Keyboard navigation
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft') {
-                    prevSlide();
-                } else if (e.key === 'ArrowRight') {
-                    nextSlide();
-                }
-            });
-            
-            // Initialize slideshow
-            showSlide(0);
-        })();
+            const newHash = await sha256(np);
+            await setStoredHash(newHash);
+            ok.classList.remove('hidden');
+            setTimeout(()=>{ changeModal.classList.add('hidden'); changeModal.classList.remove('flex'); }, 700);
+        });
     </script>
 </body>
 </html>

@@ -1,36 +1,16 @@
 // Main shop logic: products rendering, cart, and checkout to Firestore
-// Firebase is initialized inline in HTML via window.FIREBASE_CONFIG.
+// Firebase is initialized via centralized firebase-config.js
+import { getFirebaseHelpers, initializeFirestore } from './firebase-config.js';
+
 let firebaseApp = null;
 let firestoreDb = null;
 
 async function ensureFirebaseHelpers() {
   // Returns { collection, addDoc, serverTimestamp, doc, updateDoc, getDocs }
-  if (window.__fb && firebaseApp && firestoreDb) return window.__fb;
-  try {
-    const [{ initializeApp }, { getFirestore, collection, addDoc, serverTimestamp, doc, updateDoc, getDocs }] = await Promise.all([
-      import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'),
-      import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
-    ]);
-    if (!firebaseApp) firebaseApp = initializeApp(window.FIREBASE_CONFIG);
-    if (!firestoreDb) firestoreDb = getFirestore(firebaseApp);
-    window.__fb = { collection, addDoc, serverTimestamp, doc, updateDoc, getDocs };
-    return window.__fb;
-  } catch (e) {
-    // Retry once in case of transient network failure
-    try {
-      const [{ initializeApp }, { getFirestore, collection, addDoc, serverTimestamp, doc, updateDoc, getDocs }] = await Promise.all([
-        import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'),
-        import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
-      ]);
-      if (!firebaseApp) firebaseApp = initializeApp(window.FIREBASE_CONFIG);
-      if (!firestoreDb) firestoreDb = getFirestore(firebaseApp);
-      window.__fb = { collection, addDoc, serverTimestamp, doc, updateDoc, getDocs };
-      return window.__fb;
-    } catch (e2) {
-      console.error('Failed to load Firebase modules:', e2);
-      throw e2;
-    }
+  if (!firestoreDb) {
+    firestoreDb = await initializeFirestore();
   }
+  return await getFirebaseHelpers();
 }
 
 // --- Product Catalog (clothes + lip tints) ---
@@ -497,13 +477,11 @@ document.getElementById('chkSubmit').addEventListener('click', async () => {
 // Try loading products from Firestore 'products' collection; fall back to local list
 async function tryLoadProductsFromFirestore(){
   try {
-    const [{ initializeApp }, { getFirestore, collection, getDocs }] = await Promise.all([
-      import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'),
-      import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
-    ]);
-    const app = initializeApp(window.FIREBASE_CONFIG);
-    const db = getFirestore(app);
-    const snap = await getDocs(collection(db, 'products'));
+    const { collection, getDocs, setDoc, doc } = await getFirebaseHelpers();
+    if (!firestoreDb) {
+      firestoreDb = await initializeFirestore();
+    }
+    const snap = await getDocs(collection(firestoreDb, 'products'));
     const loaded = [];
     snap.forEach(d => loaded.push({ id: d.id, ...d.data() }));
     if (loaded.length) {
@@ -516,6 +494,33 @@ async function tryLoadProductsFromFirestore(){
         size: Array.isArray(p.size) && p.size.length ? p.size : ['One Size'],
         image: p.image || 'https://placehold.co/600x450/FFFFFF/5A2753?text=Product'
       }));
+    } else {
+      // Seed Firestore with local defaults if empty, using stable document IDs
+      try {
+        for (const p of products) {
+          const payload = {
+            name: p.name,
+            price: Number(p.price || 0),
+            category: p.category || 'others',
+            stock: Number(p.stock || 0),
+            size: Array.isArray(p.size) && p.size.length ? p.size : ['One Size'],
+            image: p.image || 'https://placehold.co/600x450/FFFFFF/5A2753?text=Product'
+          };
+          await setDoc(doc(firestoreDb, 'products', p.id), payload);
+        }
+        const seededSnap = await getDocs(collection(firestoreDb, 'products'));
+        const seeded = [];
+        seededSnap.forEach(d => seeded.push({ id: d.id, ...d.data() }));
+        products = seeded.map(p => ({
+          id: p.id,
+          name: p.name,
+          price: Number(p.price || 0),
+          category: p.category || 'others',
+          stock: Number(p.stock || 0),
+          size: Array.isArray(p.size) && p.size.length ? p.size : ['One Size'],
+          image: p.image || 'https://placehold.co/600x450/FFFFFF/5A2753?text=Product'
+        }));
+      } catch (_) { /* if seeding fails, keep local defaults */ }
     }
   } catch (e) {
     // ignore errors (e.g., Firebase not configured); keep default products

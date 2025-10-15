@@ -70,15 +70,36 @@
 </head>
 <body class="bg-gradient-to-br from-mint-50/30 to-lavender-100/20 text-text-primary font-body min-h-screen">
     <script>
-        // Simple client-side guard: redirect to start if not authenticated
+        // Enhanced client-side guard: redirect to start if not authenticated
         (function(){
             try {
-                var ok = localStorage.getItem('adminAuth') === 'true';
-                if (!ok) { window.location.replace('./start.html'); }
+                // Check both localStorage and sessionStorage for admin authentication
+                var localStorageAuth = localStorage.getItem('adminAuth') === 'true';
+                var sessionStorageAuth = sessionStorage.getItem('adminAuth') === 'true';
+                
+                if (!localStorageAuth && !sessionStorageAuth) { 
+                    window.location.replace('./start.html'); 
+                } else if (localStorageAuth && !sessionStorageAuth) {
+                    // Transfer from localStorage to sessionStorage for better security
+                    sessionStorage.setItem('adminAuth', 'true');
+                }
             } catch (e) {
                 try { window.location.replace('./start.html'); } catch {}
             }
         })();
+        
+        // Logout function
+        function logoutAdmin() {
+            try {
+                localStorage.removeItem('adminAuth');
+                localStorage.removeItem('jcws_admin');
+                sessionStorage.removeItem('adminAuth');
+            } catch (e) {}
+            window.location.replace('./start.html');
+        }
+        
+        // Make logout function globally available
+        window.logoutAdmin = logoutAdmin;
     </script>
     <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-mint-100">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -233,16 +254,6 @@
         })();
     </script>
     <script>
-        window.FIREBASE_CONFIG = {
-          apiKey: "AIzaSyBs74HoIeuFoXE0G_mdD2eNBDsucuAEQCA",
-          authDomain: "justclickshop-8081b.firebaseapp.com",
-          projectId: "justclickshop-8081b",
-          storageBucket: "justclickshop-8081b.firebasestorage.app",
-          messagingSenderId: "623998776057",
-          appId: "1:623998776057:web:f488332b7b49bbc3f5a828",
-          measurementId: "G-DTDJ1CGMWB"
-        };
-
         // Global variables for order data
         let allOrders = [];
 
@@ -451,11 +462,11 @@ ${items}
         window.createTestOrder = createTestOrder;
     </script>
     <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
-        import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, deleteDoc, updateDoc, doc, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+        import { initializeFirebase, initializeFirestore } from './firebase-config.js';
+        import { collection, query, orderBy, onSnapshot, addDoc, deleteDoc, updateDoc, doc, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
 
-        const app = initializeApp(window.FIREBASE_CONFIG);
-        const db = getFirestore(app);
+        const app = await initializeFirebase();
+        const db = await initializeFirestore();
 
         // Tabs
         const tabOrders = document.getElementById('tabOrders');
@@ -702,8 +713,7 @@ ${items}
         document.getElementById('goToStartBtn').addEventListener('click', function() {
             const ok = confirm('Are you sure you want to logout of admin mode?');
             if (!ok) return;
-            try { localStorage.removeItem('jcws_admin'); localStorage.removeItem('adminAuth'); } catch {}
-            window.location.href = './start.html';
+            logoutAdmin();
         });
 
     </script>

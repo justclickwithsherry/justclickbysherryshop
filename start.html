@@ -69,18 +69,6 @@
     </script>
 </head>
 <body class="bg-gradient-to-br from-mint-50 to-mint-100 text-text-primary font-body min-h-screen">
-    <script>
-        // Firebase config for this page too (same project as the shop)
-        window.FIREBASE_CONFIG = {
-          apiKey: "AIzaSyBs74HoIeuFoXE0G_mdD2eNBDsucuAEQCA",
-          authDomain: "justclickshop-8081b.firebaseapp.com",
-          projectId: "justclickshop-8081b",
-          storageBucket: "justclickshop-8081b.firebasestorage.app",
-          messagingSenderId: "623998776057",
-          appId: "1:623998776057:web:f488332b7b49bbc3f5a828",
-          measurementId: "G-DTDJ1CGMWB"
-        };
-    </script>
     <div class="relative overflow-hidden min-h-screen flex items-center">
         <div class="absolute inset-0 bg-gradient-to-br from-mint-50 to-mint-100"></div>
         <div class="absolute -right-24 -bottom-24 w-72 h-72 bg-plum-500/10 rounded-full blur-3xl"></div>
@@ -228,7 +216,14 @@
                 return;
             }
             const hashHex = await sha256(entered);
-            if (hashHex === stored) { try { localStorage.setItem('jcws_admin', '1'); localStorage.setItem('adminAuth','true'); } catch {} location.href = './admin.html'; }
+            if (hashHex === stored) { 
+                try { 
+                    localStorage.setItem('jcws_admin', '1'); 
+                    localStorage.setItem('adminAuth','true'); 
+                    sessionStorage.setItem('adminAuth', 'true'); // Use sessionStorage for better security
+                } catch {} 
+                location.href = './admin.html'; 
+            }
             else document.getElementById('loginError').classList.remove('hidden');
         });
         document.getElementById('pwd').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ document.getElementById('confirmLogin').click(); } });
