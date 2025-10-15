@@ -106,7 +106,12 @@ function renderProducts() {
     toRender = toRender.slice(0, maxItems);
   }
   toRender.forEach((p) => {
-    const isOutOfStock = Number(p.stock || 0) === 0;
+    // Calculate how many items are already in cart for this product
+    const cartItemsForProduct = Object.keys(cart).filter(key => key.startsWith(p.id + '::'));
+    const totalInCart = cartItemsForProduct.reduce((sum, key) => sum + (cart[key] || 0), 0);
+    const availableStock = Math.max(0, Number(p.stock || 0) - totalInCart);
+    const isOutOfStock = availableStock === 0;
+    
     const card = document.createElement('div');
     card.className = `group bg-white/80 backdrop-blur-sm rounded-3xl ring-2 ring-mint-100 shadow-lg overflow-hidden hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 hover:ring-plum-500/30 ${isOutOfStock ? 'opacity-75' : ''} animate-scale-in`;
     card.innerHTML = `
@@ -141,7 +146,7 @@ function renderProducts() {
         <div class="flex items-center justify-between mb-4">
           <span class="font-display font-bold text-xl text-plum-500">${peso(p.price)}</span>
           <span class="text-sm font-medium ${isOutOfStock ? 'text-red-500' : 'text-green-600'}">
-            Available: ${Number(p.stock || 0)}
+            Available: ${availableStock}
           </span>
         </div>
         ${isOutOfStock ? 
@@ -171,9 +176,18 @@ function pickSizeThenAdd(product) {
   if (sizes.length === 1) {
     const key = `${product.id}::${sizes[0]}`;
     const qty = cart[key] || 0;
+    const currentStock = Number(product.stock || 0);
+    
+    // Check if adding one more would exceed available stock
+    if (qty >= currentStock) {
+      alert(`Only ${currentStock} items available in stock`);
+      return;
+    }
+    
     cart[key] = qty + 1;
     renderCart();
     saveCartToStorage();
+    renderProducts(); // Update product display to show new stock
     return;
   }
   const overlay = document.createElement('div');
@@ -208,9 +222,18 @@ function pickSizeThenAdd(product) {
     const sel = card.querySelector('#__sizeSel').value || sizes[0];
     const key = `${product.id}::${sel}`;
     const qty = cart[key] || 0;
+    const currentStock = Number(product.stock || 0);
+    
+    // Check if adding one more would exceed available stock
+    if (qty >= currentStock) {
+      alert(`Only ${currentStock} items available in stock`);
+      return;
+    }
+    
     cart[key] = qty + 1;
     renderCart();
     saveCartToStorage();
+    renderProducts(); // Update product display to show new stock
     close();
   });
 }
@@ -224,7 +247,12 @@ function renderCart() {
   itemsEl.innerHTML = '';
   items.forEach((item) => {
     const product = products.find(p => p.id === item.id);
-    const availableStock = Number(product?.stock || 0);
+    const totalStock = Number(product?.stock || 0);
+    
+    // Calculate how many items are already in cart for this product (including current item)
+    const cartItemsForProduct = Object.keys(cart).filter(key => key.startsWith(item.id + '::'));
+    const totalInCart = cartItemsForProduct.reduce((sum, key) => sum + (cart[key] || 0), 0);
+    const availableStock = Math.max(0, totalStock - totalInCart + item.quantity); // Add current item back since it's already "reserved"
     const canIncrease = item.quantity < availableStock;
     
     const row = document.createElement('div');
@@ -286,12 +314,14 @@ function updateQty(cartKey, quantity) {
   
   renderCart();
   saveCartToStorage();
+  renderProducts(); // Update product display to show current stock
 }
 
 function removeFromCart(cartKey) {
   delete cart[cartKey];
   renderCart();
   saveCartToStorage();
+  renderProducts(); // Update product display to show new stock
 }
 
 // --- Firestore Checkout ---
